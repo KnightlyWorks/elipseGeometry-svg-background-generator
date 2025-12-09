@@ -1,6 +1,6 @@
 // index.jsx
 import PlaceholderImage from '../assets/patternsPreviews/Placeholder.webp';
-import CloseIcon from '../assets/close.svg';
+import camelCaseToSpaced from '../supportFunctions/camelCaseToSpaced';
 
 const patternModules = import.meta.glob('./*.jsx', { eager: true });
 const patternImages = import.meta.glob('./assets/patternsPreviews/*.{png,jpg,jpeg,webp,svg}', { eager: true, as: 'url' });
@@ -9,12 +9,7 @@ function getComponentNameFromPath(path) {
   return path.split('/').pop().replace(/\.\w+$/, '');
 }
 
-const camelCaseToSpaced = (camelCaseString) => {
-  let result = camelCaseString.replace(/([A-Z])/g, ' $1');
-  return result.trim();
-};
-
-function PreviewCard({ path, setterFunction }) {
+function PreviewCard({ path, setterFunction, closeModalFunction }) {
   const componentName = getComponentNameFromPath(path);
   const PatternComponent = patternModules[path]?.default;
 
@@ -29,80 +24,103 @@ function PreviewCard({ path, setterFunction }) {
 
   const finalImageSrc = matchingImageKey ? patternImages[matchingImageKey] : PlaceholderImage;
 
+  const handleSelect = () => {
+    setterFunction(() => PatternComponent);
+    closeModalFunction();
+  }
+
   return (
-    <figure
+    <button
+      onClick={handleSelect}
       className='
-        rounded-lg overflow-hidden border border-surface-2
-        transition-shadow duration-200 hover:shadow-lg hover:shadow-purple-500/20
-        cursor-pointer
+        group text-left relative flex flex-col
+        rounded-xl overflow-hidden border border-surface-2 bg-surface
+        transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.3)]
+        hover:-translate-y-1
       '
     >
-      <div className="aspect-square bg-surface-1 flex items-center justify-center overflow-hidden relative p-4">
+      <div className="aspect-video w-full bg-background-elevated relative overflow-hidden p-2">
+        {/* Subtle grid background. transparent images */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#4b5563_1px,transparent_1px)] bg-size-[16px_16px]"></div>
+        
         <img
           src={finalImageSrc}
-          alt={`Превью паттерна: ${componentName}`}
-          className="object-contain w-full h-full max-h-full"
+          alt={componentName}
+          className="relative z-10 object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
         />
+        
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-purple-900/0 group-hover:bg-purple-900/10 transition-colors z-20" />
       </div>
 
-      <figcaption className="flex w-full justify-between items-center p-4 bg-surface-2 border-t border-surface-2">
-        <h2 className="text-base font-semibold text-text-primary">
+      <div className="p-4 w-full border-t border-surface-2 group-hover:border-purple-500/30">
+        <h2 className="text-sm font-semibold text-text group-hover:text-purple-300 transition-colors">
           {camelCaseToSpaced(componentName)}
         </h2>
-        <button
-          type="button"
-          onClick={() => setterFunction(() => PatternComponent)}
-          className="
-            bg-purple-600 px-4 py-2 rounded-full text-sm font-medium text-white
-            hover:bg-purple-700 active:bg-purple-800
-            transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2
-          "
-        >
-          Apply
-        </button>
-      </figcaption>
-    </figure>
+        <p className='text-xs text-text-muted mt-1'>Click to apply pattern</p>
+      </div>
+    </button>
   );
 }
 
 export default function GridOfPreviews({ setterFunction, closeModalFunction }) {
   const componentPaths = Object.keys(patternModules).filter(path => !path.includes('/index.'));
   const previewCards = componentPaths.map(path => (
-    <PreviewCard key={path} path={path} setterFunction={setterFunction} />
+    <PreviewCard 
+        key={path} 
+        path={path} 
+        setterFunction={setterFunction} 
+        closeModalFunction={closeModalFunction}
+    />
   ));
 
   return (
-    <article
-      role='dialog'
-      aria-modal='true'
-      className="
-        fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-        w-11/12 max-w-4xl h-[90vh]
-        bg-gradient-to-br from-surface/95 to-surface/90 backdrop-blur-sm
-        shadow-2xl rounded-xl
-        flex flex-col
-      "
-    >
-      <header className='flex justify-between items-center p-6 border-b border-surface-2'>
-        <h2 className="text-2xl font-bold text-text-primary">Select Pattern</h2>
-        <button 
-          className='size-8 p-2 rounded-full hover:bg-surface-3 transition-colors' 
-          type='button' 
-          onClick={closeModalFunction}
-          aria-label='Закрыть модальное окно'
-        >
-          <img src={CloseIcon} alt='Закрыть' />
-        </button>
-      </header>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        {/* Backdrop */}
+        <div 
+            className="absolute inset-0 bg-background/80 backdrop-blur-md transition-opacity" 
+            onClick={closeModalFunction}
+        />
 
-      {/* Scrollable container */}
-      <div className="
-        overflow-y-scroll p-6
-        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1 auto-rows-max
-        content-start
-      ">
-        {previewCards}
-      </div>
-    </article>
+        <article
+        role='dialog'
+        aria-modal='true'
+        className="
+            relative z-10
+            w-full max-w-5xl h-[85vh]
+            bg-surface border border-border
+            shadow-2xl rounded-2xl
+            flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200
+        "
+        >
+        <header className='flex justify-between items-center p-6 border-b border-border bg-surface/50 backdrop-blur-sm'>
+            <div>
+                <h2 className="text-xl font-bold text-text bg-clip-text  bg-[image:--gradient-primary]">
+                Select Pattern
+                </h2>
+                <p className="text-xs text-text-secondary mt-1">Choose a generative algorithm to start creating</p>
+            </div>
+            
+            <button 
+            className='p-2 rounded-lg hover:bg-surface-hover text-text-tertiary hover:text-white transition-colors' 
+            type='button' 
+            onClick={closeModalFunction}
+            aria-label='Close'
+            >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </header>
+
+        <div className="
+            overflow-y-auto p-6
+            grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 
+            custom-scrollbar
+        ">
+            {previewCards}
+        </div>
+        </article>
+    </div>
   );
 }

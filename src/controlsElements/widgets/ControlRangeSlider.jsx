@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import idFromName from "../../supportFunctions/idFromName";
 export default function ControlRangeSlider({setterFunction, min, max, defaultValue, labelText}) {
   const [inputValue, setInputValue] = useState(defaultValue);
   
@@ -10,7 +10,7 @@ export default function ControlRangeSlider({setterFunction, min, max, defaultVal
     return () => clearTimeout(timer);
   }, [inputValue, setterFunction]);
   
-  const fieldId = labelText.replace(/\s+/g, '-').toLowerCase();
+  const fieldId =  idFromName(labelText)
   
   return (
     <div className="group relative grid gap-2 px-2">

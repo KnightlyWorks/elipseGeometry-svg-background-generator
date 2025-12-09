@@ -5,77 +5,91 @@ import ControlRangeSlider from './widgets/ControlRangeSlider';
 
 function generateHorizontalLines({ count, width, height, xDeviation, yChaos }) {
     const curves = [];
-    const spacing = height / (count + 1);
+    
+
+    const zoneHeight = height / count; 
+    const overlap = 250; 
 
     for (let i = 0; i < count; i++) {
-        const y = spacing * (i + 1);
 
-        const startOffsetX = (Math.random() - 0.5) * xDeviation * 2;
-        const endOffsetX = (Math.random() - 0.5) * xDeviation * 2;
-        const cp1OffsetY = (Math.random() - 0.5) * yChaos; 
-        const cp2OffsetY = (Math.random() - 0.5) * yChaos;
-        const cp1OffsetX = (Math.random() - 0.5) * xDeviation;
-        const cp2OffsetX = (Math.random() - 0.5) * xDeviation;
+        const baseY = zoneHeight * (i + 0.5); 
+
+        const startX = -overlap + (Math.random() * xDeviation * 2); 
+        const endX = width + overlap - (Math.random() * xDeviation * 2);
+
+        const startY = baseY + (Math.random() - 0.5) * yChaos;
+        const endY = baseY + (Math.random() - 0.5) * yChaos;
+
+        const cp1X = width * 0.3 + (Math.random() - 0.5) * xDeviation;
+        const cp2X = width * 0.7 + (Math.random() - 0.5) * xDeviation;
+
+        const cp1Y = startY + (Math.random() - 0.5) * yChaos * 1.5;
+        const cp2Y = endY + (Math.random() - 0.5) * yChaos * 1.5;
 
         curves.push(new Bezier(
-            { x: 0 + startOffsetX, y: y },
-            { x: width / 3 + cp1OffsetX, y: y + cp1OffsetY }, 
-            { x: width * 2/3 + cp2OffsetX, y: y + cp2OffsetY }, 
-            { x: width + endOffsetX, y: y }
+            { x: startX, y: startY },
+            { x: cp1X, y: cp1Y }, 
+            { x: cp2X, y: cp2Y }, 
+            { x: endX, y: endY }
         ));
     }
 
     return curves;
 }
+
 export default function HorizontalWavyLines({ setCurves = () => {} }) {
-    const [count, setCount] = useState(5);
-    const [xDeviation, setXDeviation] = useState(50);
-    
-    const [yChaos, setYChaos] = useState(0); 
+    const [count, setCount] = useState(8);
+    const [xDeviation, setXDeviation] = useState(100); 
+    const [yChaos, setYChaos] = useState(150); 
 
     const handleGenerate = () => {
         const curves = generateHorizontalLines({
             count,
-            width: 500,
-            height: 500,
+            width: 700,
+            height: 300, 
             xDeviation,
-            yChaos });
+            yChaos 
+        });
         setCurves(curves);
     };
 
     return (
-        <div className="space-y-4">
-        <ControlRangeSlider
-        setterFunction={setCount}
-        labelText="Number of lines"
-        min={2}
-        max={15}
-        defaultValue={5}
-        />
+        <div className="space-y-4 border-t border-gray-700 pt-4 mt-4">
+            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">
+                Generator Settings
+            </h3>
+            
+            <ControlRangeSlider
+                setterFunction={setCount}
+                labelText="Line Count"
+                min={3}
+                max={20}
+                defaultValue={8}
+            />
 
-        <ControlRangeSlider
-        setterFunction={setXDeviation}
-        labelText="X Deviation"
-        min={0}
-        max={150}
-        defaultValue={50}
-        />
-        
-        <ControlRangeSlider
-        setterFunction={setYChaos}
-        labelText="Y Chaos (Waviness)"
-        min={0}
-        max={1000} 
-        defaultValue={0}
-        />
+            <ControlRangeSlider
+                setterFunction={setXDeviation}
+                labelText="X Spread (Edge randomness)"
+                min={0}
+                max={200}
+                defaultValue={100}
+            />
+            
+            <ControlRangeSlider
+                setterFunction={setYChaos}
+                labelText="Y Flow (Vertical freedom)"
+                min={10}
+                max={300} 
+                defaultValue={150}
+            />
 
-        <button
-        type='button'
-        onClick={handleGenerate}
-        className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded w-full"
-        >
-        Generate!
-        </button>
+            <button
+                type='button'
+                onClick={handleGenerate}
+                className="btn-primary"
+            >
+                Regenerate Lines
+            </button>
         </div>
     );
 }
