@@ -70,6 +70,6 @@
   }
 
   .text-label {
-    @apply text-xs font-bold text-text-tertiary uppercase tracking-wider mb-2 block;
+    @apply text-xs font-bold text-text-secondary uppercase tracking-wider mb-2 block group-hocus:text-text hocus:text-text ;
   }
 }

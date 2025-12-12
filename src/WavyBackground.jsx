@@ -4,24 +4,89 @@ import { useMemo } from 'react';
 export function WavyBackground({curves, radius = 20, pointsPerCurve = 100 }) {
 
 const { path1, path2 } = useMemo(() => {
-    const curvesToProcess = curves ?? [
-      new Bezier(
-        { x: 50, y: 50 },
-        { x: 450, y: 50 },
-        { x: 50, y: 450 },
-        { x: 450, y: 450 }
-      )
-    ];
+const curvesToProcess = curves ?? [
+  // Первая кривая: M2,2 C 1,8 2,16 4,18
+  new Bezier(
+    { x: 40, y: 40 },
+    { x: 20, y: 160 },
+    { x: 40, y: 320 },
+    { x: 80, y: 360 }
+  ),
+  // Вторая: C 6,18 8,10 10,6
+  new Bezier(
+    { x: 80, y: 360 },
+    { x: 120, y: 360 },
+    { x: 160, y: 200 },
+    { x: 200, y: 120 }
+  ),
+  // Третья: C 12,10 14,18 16,18
+  new Bezier(
+    { x: 200, y: 120 },
+    { x: 240, y: 200 },
+    { x: 280, y: 360 },
+    { x: 320, y: 360 }
+  ),
+  // Четвертая: C 18,18 19,8 18,2
+  new Bezier(
+    { x: 320, y: 360 },
+    { x: 360, y: 360 },
+    { x: 380, y: 160 },
+    { x: 360, y: 40 }
+  ),
+  // Пятая: C 20,2 21,4 20.5,5
+  new Bezier(
+    { x: 360, y: 40 },
+    { x: 400, y: 40 },
+    { x: 420, y: 80 },
+    { x: 410, y: 100 }
+  ),
+  // Шестая: C 19.5,14 18,19 16,19
+  new Bezier(
+    { x: 410, y: 100 },
+    { x: 390, y: 280 },
+    { x: 360, y: 380 },
+    { x: 320, y: 380 }
+  ),
+  // Седьмая: C 14,19 12.5,12 10.5,14
+  new Bezier(
+    { x: 320, y: 380 },
+    { x: 280, y: 380 },
+    { x: 250, y: 240 },
+    { x: 210, y: 280 }
+  ),
+  // Восьмая: C 8.5,16 6,19 4,19
+  new Bezier(
+    { x: 210, y: 280 },
+    { x: 170, y: 320 },
+    { x: 120, y: 380 },
+    { x: 80, y: 380 }
+  ),
+  // Девятая: C 2,19 0.5,14 0.5,5
+  new Bezier(
+    { x: 80, y: 380 },
+    { x: 40, y: 380 },
+    { x: 10, y: 280 },
+    { x: 10, y: 100 }
+  ),
+  // Десятая: C 0.5,3 2,2 2,2
+  new Bezier(
+    { x: 10, y: 100 },
+    { x: 10, y: 60 },
+    { x: 40, y: 40 },
+    { x: 40, y: 40 }
+  )
+];
 
     return generateOptimizedPaths(curvesToProcess, radius, pointsPerCurve);
   }, [curves, radius, pointsPerCurve]); 
 
   return (
-    <div className='p-4'>
+    <div className='p-4 h-fit bg-background'>
     <svg 
-      width="100%" 
-      height="100%" 
-      viewBox="0 0 700 300" 
+    className='max-h-screen'
+      width="100%"
+      height="100%"
+      viewBox="0 0 600 600" 
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d={path1} fill="none" stroke="blue" strokeWidth="2"/>

@@ -14,7 +14,7 @@ export default function ControlRangeSlider({setterFunction, min, max, defaultVal
   
   return (
     <div className="group relative grid gap-2 px-2">
-      <label htmlFor={fieldId}>{labelText}</label> 
+      <label className="text-label group-hocus:text-text transition-colors duration-200" htmlFor={fieldId}>{labelText}</label> 
       <input 
         type="range"  
         id={fieldId} 

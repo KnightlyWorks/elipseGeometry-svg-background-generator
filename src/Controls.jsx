@@ -3,8 +3,11 @@ import ControlRangeSlider from "./controlsElements/widgets/ControlRangeSlider.js
 import GridOfPreviews from "./controlsElements/index.jsx";
 import FieldSetGroup from "./controlsElements/widgets/FieldSetGroup.jsx";
 import camelCaseToSpaced from "./supportFunctions/camelCaseToSpaced.js";
+import clsx from "clsx";
 
-export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves }) {
+
+
+export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves, isOpen }) {
     //Pattern generation
     const [GenerationComponent, setGenerationComponent] = useState(null)
     const [generationComponentModalIsOpen, setGenerationComponentModalIsOpen] = useState(false)
@@ -14,7 +17,7 @@ export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves }
     }
 
     return (
-        <aside className="bg-background-elevated h-full overflow-y-auto border-r border-border custom-scrollbar">
+        <aside className={clsx("bg-background-elevated h-full overflow-y-scroll border-r border-border custom-scrollbar md:block md:static z-10 md:max-h-screen", isOpen ? 'fixed max-h-4/5' : 'hidden')}>
             <form className="p-4 space-y-6">
                 
 
@@ -39,7 +42,7 @@ export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves }
                             </svg>
                         </button>
 
-                        <div className={`panel-card relative overflow-hidden ${!GenerationComponent ? 'border-dashed border-gray-700 bg-transparent' : ''}`}>
+                        <div className={`panel-card relative ${!GenerationComponent ? 'border-dashed border-gray-700 bg-transparent' : ''}`}>
                             {GenerationComponent ? (
                                 <>
                                     <div className="flex items-center justify-between mb-4 border-b border-border pb-2">

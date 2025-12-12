@@ -3,7 +3,7 @@ export default function Checkbox({ setterFunction, isChecked, label }) {
   const fieldId = idFromName(label);
   
   return( 
-    <div className="flex items-center gap-1 px-2">
+    <div className="flex items-center gap-1 px-2 text-balance text-center">
       <input
         type="checkbox"
         id={fieldId}
