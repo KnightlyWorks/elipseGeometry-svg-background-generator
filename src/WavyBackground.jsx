@@ -1,99 +1,55 @@
 import { Bezier } from 'bezier-js';
 import { useMemo } from 'react';
 
-export function WavyBackground({curves, radius = 20, pointsPerCurve = 100 }) {
-
-const { path1, path2 } = useMemo(() => {
-const curvesToProcess = curves ?? [
-  // Первая кривая: M2,2 C 1,8 2,16 4,18
-  new Bezier(
-    { x: 40, y: 40 },
-    { x: 20, y: 160 },
-    { x: 40, y: 320 },
-    { x: 80, y: 360 }
-  ),
-  // Вторая: C 6,18 8,10 10,6
-  new Bezier(
-    { x: 80, y: 360 },
-    { x: 120, y: 360 },
-    { x: 160, y: 200 },
-    { x: 200, y: 120 }
-  ),
-  // Третья: C 12,10 14,18 16,18
-  new Bezier(
-    { x: 200, y: 120 },
-    { x: 240, y: 200 },
-    { x: 280, y: 360 },
-    { x: 320, y: 360 }
-  ),
-  // Четвертая: C 18,18 19,8 18,2
-  new Bezier(
-    { x: 320, y: 360 },
-    { x: 360, y: 360 },
-    { x: 380, y: 160 },
-    { x: 360, y: 40 }
-  ),
-  // Пятая: C 20,2 21,4 20.5,5
-  new Bezier(
-    { x: 360, y: 40 },
-    { x: 400, y: 40 },
-    { x: 420, y: 80 },
-    { x: 410, y: 100 }
-  ),
-  // Шестая: C 19.5,14 18,19 16,19
-  new Bezier(
-    { x: 410, y: 100 },
-    { x: 390, y: 280 },
-    { x: 360, y: 380 },
-    { x: 320, y: 380 }
-  ),
-  // Седьмая: C 14,19 12.5,12 10.5,14
-  new Bezier(
-    { x: 320, y: 380 },
-    { x: 280, y: 380 },
-    { x: 250, y: 240 },
-    { x: 210, y: 280 }
-  ),
-  // Восьмая: C 8.5,16 6,19 4,19
-  new Bezier(
-    { x: 210, y: 280 },
-    { x: 170, y: 320 },
-    { x: 120, y: 380 },
-    { x: 80, y: 380 }
-  ),
-  // Девятая: C 2,19 0.5,14 0.5,5
-  new Bezier(
-    { x: 80, y: 380 },
-    { x: 40, y: 380 },
-    { x: 10, y: 280 },
-    { x: 10, y: 100 }
-  ),
-  // Десятая: C 0.5,3 2,2 2,2
-  new Bezier(
-    { x: 10, y: 100 },
-    { x: 10, y: 60 },
-    { x: 40, y: 40 },
-    { x: 40, y: 40 }
-  )
+const CURVE_POINTS = [
+  [40, 40, 20, 160, 40, 320, 80, 360],
+  [80, 360, 120, 360, 160, 200, 200, 120],
+  [200, 120, 240, 200, 280, 360, 320, 360],
+  [320, 360, 360, 360, 380, 160, 360, 40],
+  [360, 40, 400, 40, 420, 80, 410, 100],
+  [410, 100, 390, 280, 360, 380, 320, 380],
+  [320, 380, 280, 380, 250, 240, 210, 280],
+  [210, 280, 170, 320, 120, 380, 80, 380],
+  [80, 380, 40, 380, 10, 280, 10, 100],
+  [10, 100, 10, 60, 40, 40, 40, 40]
 ];
 
-    return generateOptimizedPaths(curvesToProcess, radius, pointsPerCurve);
-  }, [curves, radius, pointsPerCurve]); 
+const createBezierFromPoints = (pts) => new Bezier(
+    { x: pts[0], y: pts[1] }, { x: pts[2], y: pts[3] },
+    { x: pts[4], y: pts[5] }, { x: pts[6], y: pts[7] }
+);
+const DEFAULT_BEZIER_CURVES = CURVE_POINTS.map(createBezierFromPoints);
+
+
+export function WavyBackground({curves, radius = 20, pointsPerCurve = 100, transformSVG = {scale:1, translate:{x:10, y:0}} }) {
+
+const transformAtribute = (transformSVG) => {
+  return `translate(${transformSVG.translate.x} ${transformSVG.translate.y}) scale(${transformSVG.scale})`
+}
+  
+const { path1, path2 } = useMemo(() => {
+  return generateOptimizedPaths(
+    curves ?? DEFAULT_BEZIER_CURVES, 
+    radius, 
+    pointsPerCurve
+  );
+}, [curves, radius, pointsPerCurve]);
 
   return (
     <div className='p-4 h-fit bg-background'>
-    <svg 
-    className='max-h-screen'
-      width="100%"
-      height="100%"
-      viewBox="0 0 600 600" 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d={path1} fill="none" stroke="blue" strokeWidth="2"/>
-
-      <path d={path2} fill="none" stroke="red" strokeWidth="2"/>
-    </svg>
-
+      <svg 
+      className='max-h-screen'
+        width="100%"
+        height="100%"
+        viewBox="0 0 600 600" 
+        xmlns="http://www.w3.org/2000/svg"
+        
+      >
+        <g transform={transformAtribute(transformSVG)}>
+          <path d={path1} fill="none" stroke="blue" strokeWidth="2"/>
+          <path d={path2} fill="none" stroke="red" strokeWidth="2"/>
+        </g>
+      </svg>
     </div>
   );
 }

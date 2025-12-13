@@ -1,9 +1,10 @@
+import clsx from 'clsx';
+
 import { useState } from 'react';
+
 import { WavyBackground } from './WavyBackground.jsx'
 import ControlPanel from './Controls.jsx';
 import Header from './Header.jsx';
-import clsx from 'clsx';
-
 
 export default function App () {
   const [radius, setRadius] = useState(20);
@@ -12,6 +13,8 @@ export default function App () {
 
   const [isSettingsMenuOpen, setSettingsMenu] = useState(true)
 
+  const [transformSVG,setTransformSVG] = useState({scale:1, translate:{x:0, y:0}})
+
   const toggleSettingsMenu = () => {
     setSettingsMenu(prev => !prev)
   }
@@ -19,9 +22,10 @@ export default function App () {
     return (
         <div className='w-full max-w-[2000px] mx-auto bg-background'>
             <Header toggleSettingsFunction={toggleSettingsMenu} isSettingsOpen={isSettingsMenuOpen} />
-            <div className={clsx('grid transition-all', isSettingsMenuOpen ? 'md:grid-cols-[1fr_4fr]' : 'md:grid-cols-[0fr_4fr]')}>
-                <ControlPanel isOpen={isSettingsMenuOpen} setRadius={setRadius} setPointsPerCurve={setPointsPerCurve} setCurves={setCurves} radius={radius} pointsPerCurve={pointsPerCurve} />
-                <WavyBackground radius={radius} pointsPerCurve={pointsPerCurve} curves={curves}  />
+            <div className={clsx('grid transition-all duration-200', isSettingsMenuOpen ? 'md:grid-cols-[1fr_4fr]' : 'md:grid-cols-[0fr_4fr]')}>
+                <ControlPanel setTransformSVG={setTransformSVG} isOpen={isSettingsMenuOpen} setRadius={setRadius} setPointsPerCurve={setPointsPerCurve} setCurves={setCurves}/>
+
+                <WavyBackground radius={radius} pointsPerCurve={pointsPerCurve} curves={curves} transformSVG={transformSVG}  />
             </div>
         </div>
     )

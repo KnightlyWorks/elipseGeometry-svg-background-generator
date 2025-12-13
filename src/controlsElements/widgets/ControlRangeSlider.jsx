@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import idFromName from "../../supportFunctions/idFromName";
-export default function ControlRangeSlider({setterFunction, min, max, defaultValue, labelText}) {
+export default function ControlRangeSlider({setterFunction, min, max, defaultValue, labelText, step = 1}) {
   const [inputValue, setInputValue] = useState(defaultValue);
   
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function ControlRangeSlider({setterFunction, min, max, defaultVal
         onChange={(e) => setInputValue(+e.target.value)} 
         min={min} 
         max={max}
+        step={step}
       />
       <span className="group-hocus:block hidden absolute bg-surface/40 text-text/90 rounded top-6 left-1/2 -translate-x-1/2 w-fit z-10 px-1 py-0.5 pointer-events-none">
         {inputValue}
