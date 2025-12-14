@@ -24,8 +24,8 @@ export default function BackgroundTransformSettings ({setterFunction}) {
   }, [translateX, translateY, scale, setterFunction]);
     
     return (
-        <div className="panel-card space-y-4">
-            <div className="border-b-border border-b space-y-4">
+        <div className="panel-card flex flex-col gap-4">
+            <div className="bottom-divider space-y-4">
                 <ControlRangeSlider step={step} labelText={'Translate X'} defaultValue={0} setterFunction={setTranslateX} min={-1000} max={1000} />
                 <ControlRangeSlider step={step} labelText={'Translate Y'} defaultValue={0} setterFunction={setTranslateY} min={-1000} max={1000} />
                 <RadioButtonsPanel currentValue={step} setterFunction={setStep} groupName={'Step'} arrayOButtons={[{label:'100', value: 100 }, {label:'50', value: 50}, {label:'10', value: 10}]} />

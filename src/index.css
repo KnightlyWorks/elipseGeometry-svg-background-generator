@@ -72,4 +72,11 @@
   .text-label {
     @apply text-xs font-bold text-text-secondary uppercase tracking-wider mb-2 block group-hocus:text-text hocus:text-text ;
   }
+
+}
+.bottom-divider {
+  @apply relative mb-4;
+}
+ .bottom-divider::after {
+  @apply content-[''] absolute left-1 right-1 -bottom-2 h-px bg-purple-600;
 }
