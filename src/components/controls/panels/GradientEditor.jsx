@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ColorPicker from 'react-best-gradient-color-picker';
 import useGradientStops from '../../../hooks/useGradientStops'
 import SvgGradientDef from '../../svg/SvgGradientDef'
+import useResizeObserver from '../../../hooks/useResizeObserver'; 
 
 const GradientEditor = ({ onApply }) => {
 
   const [gradient, setGradient] = useState('linear-gradient(90deg, rgba(147,51,234,1) 0%, rgba(236,72,153,1) 100%)');
-  
   const PREVIEW_ID = "editor_preview_gradient";
-
   const stops = useGradientStops(gradient);
+
+  const colorPickerContainerRef = useRef(null); 
+  const { width: containerWidth } = useResizeObserver(colorPickerContainerRef);
+  const colorPickerWidth = Math.min((containerWidth > 0 ? containerWidth : 200), 400)
 
   const handleApply = () => {
     if (onApply) {
@@ -23,14 +26,19 @@ const GradientEditor = ({ onApply }) => {
         
         <div className="mb-6">
           <label className="text-label">Gradient Configuration</label>
-          <div className="mt-2 p-1 rounded-lg bg-background-elevated border border-border/50">
+          
+          <div 
+            ref={colorPickerContainerRef}
+            className="mt-2 p-1 rounded-lg bg-background-elevated border border-border/50"
+          >
             <ColorPicker
               value={gradient}
               onChange={setGradient}
               hideControls
               hidePresets
               height={180}
-              className="bg-transparent! w-full"
+              width={colorPickerWidth} 
+              className="bg-transparent! w-full mx-auto"
               hideInputs={true}
             />
           </div>

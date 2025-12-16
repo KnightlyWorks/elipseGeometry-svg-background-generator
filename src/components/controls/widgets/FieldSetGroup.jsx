@@ -6,7 +6,7 @@ export default function FieldSetGroup({ legend, children }) {
   const [isOpen, setIsOpen] = useState(true);
   
   return (
-    <fieldset className="border border-default rounded p-4">
+    <fieldset className="border border-default rounded pX-2 PY-4">
       <legend 
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer hover:text-purple-400 px-2 flex items-center gap-2"
