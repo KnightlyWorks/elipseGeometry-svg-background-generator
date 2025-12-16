@@ -1,7 +1,7 @@
 // patterns/HorizontalWavyLines.jsx
 import { useState } from 'react';
 import { Bezier } from 'bezier-js';
-import ControlRangeSlider from './widgets/ControlRangeSlider';
+import ControlRangeSlider from '../widgets/ControlRangeSlider';
 
 function generateHorizontalLines({ count, width, height, xDeviation, yChaos }) {
     const curves = [];

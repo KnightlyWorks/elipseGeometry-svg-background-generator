@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import idFromName from "../../supportFunctions/idFromName";
+import idFromName from "../../../utils/idFromName";
 export default function ControlRangeSlider({setterFunction, min, max, defaultValue, labelText, step = 1}) {
   const [inputValue, setInputValue] = useState(defaultValue);
   
@@ -15,7 +15,8 @@ export default function ControlRangeSlider({setterFunction, min, max, defaultVal
   return (
     <div className="group relative grid gap-2 px-2">
       <label className="text-label group-hocus:text-text transition-colors duration-200" htmlFor={fieldId}>{labelText}</label> 
-      <input 
+      <input
+        className="w-full cursor-pointer" 
         type="range"  
         id={fieldId} 
         name={fieldId}  

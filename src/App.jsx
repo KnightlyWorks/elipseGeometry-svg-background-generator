@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 
-import { use, useState } from 'react';
+import { useState } from 'react';
 
-import { WavyBackground } from './WavyBackground.jsx'
-import ControlPanel from './Controls.jsx';
-import Header from './Header.jsx';
+import { WavyBackground } from './components/canvas/WavyBackground.jsx';
+import ControlPanel from './components/controls/Controls.jsx';
+import Header from './components/layout/Header.jsx';
 
 export default function App () {
 
@@ -18,8 +18,9 @@ export default function App () {
   //Pattern
   const [curves, setCurves] = useState()
   
-  //transform
+  //SVG 
   const [transformSVG,setTransformSVG] = useState({scale:1, translate:{x:0, y:0}})
+  const [activeStops, setActiveStops] = useState(null);
   
 
   // UI states
@@ -34,8 +35,8 @@ export default function App () {
       <div className='w-full max-w-[2000px] mx-auto bg-background'>
           <Header toggleSettingsFunction={toggleSettingsMenu} isSettingsOpen={isSettingsMenuOpen} />
           <div className={clsx('grid transition-all duration-200', isSettingsMenuOpen ? 'md:grid-cols-[1fr_4fr]' : 'md:grid-cols-[0fr_4fr]')}>
-              <ControlPanel alternating={alternating} setAlternating={setAlternating} chaos={chaos} setChaos={setChaos} setTransformSVG={setTransformSVG} isOpen={isSettingsMenuOpen} setRadius={setRadius} setPointsPerCurve={setPointsPerCurve} setCurves={setCurves}/>
-              <WavyBackground  alternating={alternating} chaos={chaos} radius={radius} pointsPerCurve={pointsPerCurve} curves={curves} transformSVG={transformSVG}  />
+              <ControlPanel setActiveStops={setActiveStops} alternating={alternating} setAlternating={setAlternating} chaos={chaos} setChaos={setChaos} setTransformSVG={setTransformSVG} isOpen={isSettingsMenuOpen} setRadius={setRadius} setPointsPerCurve={setPointsPerCurve} setCurves={setCurves}/>
+              <WavyBackground activeStops={activeStops}  alternating={alternating} chaos={chaos} radius={radius} pointsPerCurve={pointsPerCurve} curves={curves} transformSVG={transformSVG}  />
           </div>
       </div>
   )

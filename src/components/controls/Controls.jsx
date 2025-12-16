@@ -5,16 +5,17 @@ import clsx from "clsx";
 import { useState } from "react";
 
 //Components
-import ControlRangeSlider from "./controlsElements/widgets/ControlRangeSlider.jsx";
-import FieldSetGroup from "./controlsElements/widgets/FieldSetGroup.jsx";
-import GridOfPreviews from "./controlsElements/index.jsx";
-import PatternSelectionPanel from "./controlsElements/settingGroups/PatternSelectionPanel.jsx";
-import BackgroundTransformSettings from "./controlsElements/settingGroups/svgTrasform.jsx";
-import Checkbox from "./controlsElements/widgets/Checkbox.jsx";
+import ControlRangeSlider from "./widgets/ControlRangeSlider.jsx";
+import FieldSetGroup from "./widgets/FieldSetGroup.jsx";
+import GridOfPreviews from "./patterns/index.jsx";
+import PatternSelectionPanel from "./panels/PatternSelectionPanel.jsx";
+import BackgroundTransformSettings from "./panels/SvgTransform.jsx";
+import Checkbox from "./widgets/Checkbox.jsx";
+import GradientEditor from "./panels/GradientEditor.jsx";
 
 
 
-export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves, isOpen, setTransformSVG, setChaos, chaos=true, alternating, setAlternating  }) {
+export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves, isOpen, setTransformSVG, setChaos, chaos=true, alternating, setAlternating, setActiveStops  }) {
     //Pattern generation
     const [GenerationComponent, setGenerationComponent] = useState(null)
     const [generationComponentModalIsOpen, setGenerationComponentModalIsOpen] = useState(false)
@@ -24,8 +25,8 @@ export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves, 
     }
 
     return (
-        <aside className={clsx("bg-background-elevated h-full overflow-y-scroll border-r border-border custom-scrollbar md:block md:static z-10 md:max-h-screen", isOpen ? 'fixed max-h-4/5' : 'hidden')}>
-            <form className="p-4 space-y-6">
+        <aside className={clsx("bg-background-elevated w-full h-full overflow-y-scroll border-r border-border custom-scrollbar md:block md:static z-10 md:max-h-screen", isOpen ? 'fixed max-h-4/5' : 'hidden')}>
+            <div className="p-4 space-y-6">
                 
 
                 <FieldSetGroup legend={"Global Quality"}>
@@ -54,6 +55,10 @@ export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves, 
                     <BackgroundTransformSettings setterFunction={setTransformSVG} />
                 </FieldSetGroup>
 
+                <FieldSetGroup legend={"Color"}>
+                    <GradientEditor onApply={setActiveStops} />
+                </FieldSetGroup>
+
                 {/*  selection pattern type */}
                 {generationComponentModalIsOpen && (
                     <GridOfPreviews 
@@ -61,7 +66,9 @@ export default function ControlPanel({ setRadius, setPointsPerCurve, setCurves, 
                         closeModalFunction={closeModal} 
                     />
                 )}
-            </form>
+
+
+            </div>
         </aside>
     )
 }

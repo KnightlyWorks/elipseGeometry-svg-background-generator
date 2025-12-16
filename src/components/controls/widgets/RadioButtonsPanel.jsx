@@ -1,4 +1,4 @@
-import idFromName from "../../supportFunctions/idFromName";
+import idFromName from "../../../utils/idFromName";
 
 
 
@@ -6,7 +6,7 @@ export default function RadioButtonsPanel({
   setterFunction, 
   currentValue, 
   groupName, 
-  arrayOButtons = [] 
+  arrayOButtons = [{label: '', value: null}]
 }) {
   const groupNameWithOutSpaces = groupName.replaceAll(' ', '');
   

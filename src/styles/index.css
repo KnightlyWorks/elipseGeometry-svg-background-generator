@@ -61,7 +61,7 @@
 
   .btn-primary {
     @apply w-full py-2.5 px-4 rounded-lg font-medium text-white transition-all duration-200
-    bg-[image:--gradient-primary] hover:shadow-glow hover:opacity-90 active:scale-[0.98];
+    bg-[--gradient-primary] hover:shadow-glow hover:opacity-90 active:scale-[0.98];
   }
 
   .btn-secondary {

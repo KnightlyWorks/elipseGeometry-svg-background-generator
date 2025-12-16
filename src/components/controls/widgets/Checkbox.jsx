@@ -1,4 +1,4 @@
-import idFromName from "../../supportFunctions/idFromName";
+import idFromName from "../../../utils/idFromName";
 export default function Checkbox({ setterFunction, isChecked, label }) {
   const fieldId = idFromName(label);
   
