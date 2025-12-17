@@ -14,9 +14,12 @@
     "bezier-js": "^6.1.4",
     "clsx": "^2.1.1",
     "gradient-parser": "^1.1.1",
+    "prismjs": "^1.30.0",
     "react": "^19.2.0",
     "react-best-gradient-color-picker": "^3.0.14",
     "react-dom": "^19.2.0",
+    "react-simple-code-editor": "^0.14.1",
+    "svgpath": "^2.6.0",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {

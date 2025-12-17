@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo, useRef, useLayoutEffect } from 'react';
 
 // Utils
 import { generateOptimizedPaths } from './wavyBackground/pathGeneration';
@@ -14,12 +14,11 @@ export function WavyBackground({
   transformSVG = { scale: 1, translate: { x: 10, y: 0 } },
   chaos = true, 
   alternating = false,
-  activeStops = null 
+  activeStops = null,
+  setCodeString 
 }) {
-  const transformAttribute = (transformSVG) => {
-    return `translate(${transformSVG.translate.x} ${transformSVG.translate.y}) scale(${transformSVG.scale})`;
-  };
-    
+  const svgRef = useRef(null);
+
   const { path1, path2 } = useMemo(() => {
     return generateOptimizedPaths(
       curves ?? DEFAULT_BEZIER_CURVES, 
@@ -30,34 +29,44 @@ export function WavyBackground({
     );
   }, [curves, radius, pointsPerCurve, chaos, alternating]);
 
+  useLayoutEffect(() => {
+    if (svgRef.current && setCodeString) {
+      const svgCode = svgRef.current.innerHTML;
+      setCodeString(svgCode);
+    }
+  }, [path1, path2, transformSVG, activeStops, setCodeString]);
+
+  const transformStr = `translate(${transformSVG.translate.x} ${transformSVG.translate.y}) scale(${transformSVG.scale})`;
+
   return (
-    <div className='p-4 h-fit bg-background'>
-      <svg 
-        className='max-h-screen'
-        width="100%"
-        height="100%"
-        viewBox="0 0 600 600" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {activeStops && (
-          <SvgGradientDef id={MAIN_GRADIENT_ID} stops={activeStops} />
-        )}
-        <g transform={transformAttribute(transformSVG)}>
-          <path 
-            d={path1} 
-            stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'blue'} 
-            fill='none' 
-            strokeWidth="2" 
-          />
-          <path 
-            d={path2} 
-            stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'red'}  
-            fill='none' 
-            strokeWidth="2" 
-            strokeOpacity="0.7"
-          />
-        </g>
-      </svg>
+    <div ref={svgRef}  className='p-4 h-fit bg-background'>
+        <svg
+          
+          className='max-h-screen'
+          width="100%"
+          height="100%"
+          viewBox="0 0 600 600" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {activeStops && (
+            <SvgGradientDef id={MAIN_GRADIENT_ID} stops={activeStops} />
+          )}
+          <g transform={transformStr}>
+            <path 
+              d={path1} 
+              stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'blue'} 
+              fill='none' 
+              strokeWidth="2" 
+            />
+            <path 
+              d={path2} 
+              stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'red'}  
+              fill='none' 
+              strokeWidth="2" 
+              strokeOpacity="0.7"
+            />
+          </g>
+        </svg>
     </div>
   );
 }

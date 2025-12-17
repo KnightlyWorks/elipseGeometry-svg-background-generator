@@ -1,4 +1,4 @@
-import { Bezier } from 'bezier-js';
+import createBezierFromPoints from '@utils/createBezierFromPoints'
 
 export const CURVE_POINTS = [
     [40, 40, 20, 160, 40, 320, 80, 360],
@@ -13,12 +13,7 @@ export const CURVE_POINTS = [
 [10, 100, 10, 60, 40, 40, 40, 40]
 ];
 
-const createBezierFromPoints = (pts) => new Bezier(
-    { x: pts[0], y: pts[1] },
-    { x: pts[2], y: pts[3] },
-    { x: pts[4], y: pts[5] },
-    { x: pts[6], y: pts[7] }
-);
+
 
 export const DEFAULT_BEZIER_CURVES = CURVE_POINTS.map(createBezierFromPoints);
 
