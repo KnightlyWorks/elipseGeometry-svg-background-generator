@@ -5,7 +5,7 @@ import { generateOptimizedPaths } from './wavyBackground/pathGeneration';
 import { DEFAULT_BEZIER_CURVES, MAIN_GRADIENT_ID } from './wavyBackground/constants';
 
 // UI
-import SvgGradientDef from '../svg/SvgGradientDef';
+import SvgGradientDef from '@components/svg/SvgGradientDef';
 
 export function WavyBackground({
   curves, 

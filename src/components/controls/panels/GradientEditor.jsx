@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import ColorPicker from 'react-best-gradient-color-picker';
-import useGradientStops from '../../../hooks/useGradientStops'
+import useGradientStops from '@hooks/useGradientStops'
 import SvgGradientDef from '../../svg/SvgGradientDef'
-import useResizeObserver from '../../../hooks/useResizeObserver'; 
+import useResizeObserver from '@hooks/useResizeObserver'; 
 
 const GradientEditor = ({ onApply }) => {
 

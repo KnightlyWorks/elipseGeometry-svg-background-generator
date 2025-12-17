@@ -1,4 +1,4 @@
-import camelCaseToSpaced from "../../../utils/camelCaseToSpaced";
+import camelCaseToSpaced from "@utils/camelCaseToSpaced";
 
 
 

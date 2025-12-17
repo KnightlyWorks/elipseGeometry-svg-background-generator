@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 
 //UI
-import ControlRangeSlider from "../widgets/ControlRangeSlider"
-import RadioButtonsPanel from "../widgets/RadioButtonsPanel"
+import ControlRangeSlider from "@widgets/ControlRangeSlider"
+import RadioButtonsPanel from "@widgets/RadioButtonsPanel"
 
 
 

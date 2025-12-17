@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Bezier } from 'bezier-js';
-import Checkbox from '../widgets/Checkbox';
-import ControlRangeSlider from '../widgets/ControlRangeSlider';
+import Checkbox from '@widgets/Checkbox';
+import ControlRangeSlider from '@widgets/ControlRangeSlider';
 
 function generateSpiralCurves({ 
     spiralCount, armsPerSpiral, centerX, centerY, maxRadius, rotations, organicChaos, offsetCenters

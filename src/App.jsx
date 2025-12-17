@@ -2,9 +2,9 @@ import clsx from 'clsx';
 
 import { useState } from 'react';
 
-import { WavyBackground } from './components/canvas/WavyBackground.jsx';
-import ControlPanel from './components/controls/Controls.jsx';
-import Header from './components/layout/Header.jsx';
+import { WavyBackground } from '@components/canvas/WavyBackground.jsx';
+import ControlPanel from '@components/controls/Controls.jsx';
+import Header from '@components/layout/Header.jsx';
 
 export default function App () {
 

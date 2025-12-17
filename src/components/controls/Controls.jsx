@@ -4,14 +4,18 @@ import clsx from "clsx";
 // React
 import { useState } from "react";
 
-//Components
-import ControlRangeSlider from "./widgets/ControlRangeSlider.jsx";
-import FieldSetGroup from "./widgets/FieldSetGroup.jsx";
-import GridOfPreviews from "./patterns/index.jsx";
-import PatternSelectionPanel from "./panels/PatternSelectionPanel.jsx";
+// Widgets)
+import Checkbox from "@widgets/Checkbox.jsx";
+import ControlRangeSlider from "@widgets/ControlRangeSlider.jsx";
+import FieldSetGroup from "@widgets/FieldSetGroup.jsx";
+
+//Panels
 import BackgroundTransformSettings from "./panels/SvgTransform.jsx";
-import Checkbox from "./widgets/Checkbox.jsx";
 import GradientEditor from "./panels/GradientEditor.jsx";
+import PatternSelectionPanel from "./panels/PatternSelectionPanel.jsx";
+
+//Patterns
+import GridOfPreviews from "./patterns/index.jsx";
 
 
 
