@@ -4,7 +4,9 @@ import { useState } from 'react';
 
 import { WavyBackground } from '@components/canvas/WavyBackground.jsx';
 import ControlPanel from '@components/controls/Controls.jsx';
+//Layout
 import Header from '@components/layout/Header.jsx';
+import Footer from '@components/layout/Footer';
 
 export default function App () {
 
@@ -38,6 +40,7 @@ export default function App () {
               <ControlPanel setActiveStops={setActiveStops} alternating={alternating} setAlternating={setAlternating} chaos={chaos} setChaos={setChaos} setTransformSVG={setTransformSVG} isOpen={isSettingsMenuOpen} setRadius={setRadius} setPointsPerCurve={setPointsPerCurve} setCurves={setCurves}/>
               <WavyBackground activeStops={activeStops}  alternating={alternating} chaos={chaos} radius={radius} pointsPerCurve={pointsPerCurve} curves={curves} transformSVG={transformSVG}  />
           </div>
+          <Footer/>
       </div>
   )
 }

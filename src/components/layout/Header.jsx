@@ -3,7 +3,7 @@ import Logo from '@assets/logo.svg'
 export default function Header ({toggleSettingsFunction, isSettingsOpen = false}) {
 
     return (
-        <header className='flex items-center justify-between p-4  bg-background-elevated border-b-purple-700 border-b-2 mb-4 rounded-b-md shadow-md'>
+        <header className='flex items-center justify-between p-4  bg-background-elevated border-b-purple-700 border-b-2 mb-4 rounded-b-xl shadow-[0_25px_35px_rgba(126,34,206,0.25)]'>
             <img src={Logo} />
             <MenuButton toggleSettingsFunction={toggleSettingsFunction}>
                 {
