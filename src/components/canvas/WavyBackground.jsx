@@ -8,17 +8,15 @@ import { DEFAULT_BEZIER_CURVES, MAIN_GRADIENT_ID } from './wavyBackground/consta
 import SvgGradientDef from '@components/svg/SvgGradientDef';
 
 export function WavyBackground({
-  /* Shape Geometry */
-  curves,             // coordinates for Bezier paths
-  radius = 20,        // Bending amplitudes
-  pointsPerCurve = 100, // Resolution of the lines
-
-  /* Visual Style*/
-  chaos = true,       // Enables random variations in the paths
-  alternating = false, // Flips direction or style between curves
-  activeStops = null,  // Gradient color configuration (array of stops)
   
-  transformSVG = { scale: 1, translate: { x: 10, y: 0 } }, 
+  radius = 20,
+  pointsPerCurve = 100,
+  chaos = true,
+  alternating = false,
+
+  curves,
+  activeStops = null,
+  transformSVG = { scale: 1, translateX: 0, translateY: 0, stroke: 1 }, 
   setCodeString   
 }) {
   const svgRef = useRef(null);
@@ -40,15 +38,13 @@ export function WavyBackground({
     }
   }, [path1, path2, transformSVG, activeStops, setCodeString]);
 
-  const transformStr = `translate(${transformSVG.translate.x} ${transformSVG.translate.y}) scale(${transformSVG.scale})`;
+  const { scale, translateX, translateY, stroke } = transformSVG;
+  const transformStr = `translate(${translateX} ${translateY}) scale(${scale})`;
 
   return (
-    <div ref={svgRef}  className='p-4 h-fit bg-background'>
+    <div ref={svgRef} className='p-4 h-fit bg-background'>
         <svg
-          
-          className='max-h-screen'
-          width="100%"
-          height="100%"
+          className='max-h-screen w-full h-full'
           viewBox="0 0 600 600" 
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -60,13 +56,13 @@ export function WavyBackground({
               d={path1} 
               stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'blue'} 
               fill='none' 
-              strokeWidth="2" 
+              strokeWidth={`${stroke}`} 
             />
             <path 
               d={path2} 
               stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'red'}  
               fill='none' 
-              strokeWidth="2" 
+              strokeWidth={`${stroke}`} 
               strokeOpacity="0.7"
             />
           </g>

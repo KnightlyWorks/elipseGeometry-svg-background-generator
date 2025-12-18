@@ -9,7 +9,7 @@ import Header from '@components/layout/Header.jsx';
 import Footer from '@components/layout/Footer';
 
 export default function App() {
-  // 1. Generation Variables (Объединены в объект)
+  // Generation Variables 
   const [genConfig, setGenConfig] = useState({
     radius: 20,
     pointsPerCurve: 100,
@@ -21,7 +21,12 @@ export default function App() {
   const [curves, setCurves] = useState();
 
   // SVG View State
-  const [transformSVG, setTransformSVG] = useState({ scale: 1, translate: { x: 0, y: 0 } });
+  const [transformSVG, setTransformSVG] = useState({ 
+    scale: 1, 
+    translateX: 0, 
+    translateY: 0,
+    stroke: 1 
+  });
   const [activeStops, setActiveStops] = useState(null);
   const [codeString, setCodeString] = useState('');
 
@@ -30,9 +35,9 @@ export default function App() {
   const [activeModal, setActiveModal] = useState(null); // null | 'import' | 'export'
 
   // Handlers 
-  const getGenSetter = useCallback((key) => (value) => {
-    setGenConfig((prev) => ({ ...prev, [key]: value }));
-  }, []);
+ const getSetter = useCallback((stateSetter) => (key) => (value) => {
+  stateSetter((prev) => ({ ...prev, [key]: value }));
+}, []);
 
   const toggleSettingsMenu = () => setSettingsMenu((prev) => !prev);
   
@@ -69,20 +74,22 @@ export default function App() {
         'grid transition-all duration-200', 
         isSettingsMenuOpen ? 'md:grid-cols-[1fr_3fr]' : 'md:grid-cols-[0fr_3fr]'
       )}>
-        <ControlPanel 
-          config={genConfig}
-          getSetter={getGenSetter}
-          
-          setCurves={setCurves}
-          setTransformSVG={setTransformSVG}
-          setActiveStops={setActiveStops}
-          isOpen={isSettingsMenuOpen}
-        />
+      <ControlPanel
+        transformSvgConfig={transformSVG} 
+        globalQualityConfig={genConfig}
+        
+        getGenSetter={getSetter(setGenConfig)}
+        getTransformSetter={getSetter(setTransformSVG)}
+        
+        setCurves={setCurves}
+        setActiveStops={setActiveStops}
+        isOpen={isSettingsMenuOpen}
+      />
         
         <WavyBackground 
           {...genConfig} 
-          curves={curves}
           transformSVG={transformSVG}
+          curves={curves}
           activeStops={activeStops}
           setCodeString={setCodeString}
         />

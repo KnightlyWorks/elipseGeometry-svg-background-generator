@@ -11,11 +11,12 @@ import PatternSelectionPanel from "./panels/PatternSelectionPanel.jsx";
 import GridOfPreviews from "./patterns/index.jsx";
 
 export default function ControlPanel({ 
-  config, 
-  getSetter, 
+  transformSvgConfig,
+  globalQualityConfig, 
+  getGenSetter, 
+  getTransformSetter,  
   setCurves, 
-  isOpen, 
-  setTransformSVG, 
+  isOpen,  
   setActiveStops 
 }) {
     const [GenerationComponent, setGenerationComponent] = useState(null);
@@ -31,7 +32,7 @@ export default function ControlPanel({
             <div className="p-1 lg:p-4 space-y-6">
                 
                 <FieldSetGroup legend={"Global Quality"}>
-                    <GlobalSettings config={config} getSetter={getSetter} />
+                    <GlobalSettings config={globalQualityConfig} getSetter={getGenSetter} />
                 </FieldSetGroup>
 
                 <FieldSetGroup legend={"Pattern Generator"}>
@@ -43,7 +44,7 @@ export default function ControlPanel({
                 </FieldSetGroup>
 
                 <FieldSetGroup legend={"Transfrom Background"}>
-                    <BackgroundTransformSettings setterFunction={setTransformSVG} />
+                    <BackgroundTransformSettings config={transformSvgConfig} getSetter={getTransformSetter} />
                 </FieldSetGroup>
 
                 <FieldSetGroup legend={"Color"}>
