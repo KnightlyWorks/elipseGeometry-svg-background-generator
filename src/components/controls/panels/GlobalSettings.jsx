@@ -1,37 +1,42 @@
 import ControlRangeSlider from "@widgets/ControlRangeSlider.jsx";
 import Checkbox from "@widgets/Checkbox.jsx";
 
-const GLOBAL_QUALITY_SCHEMA = [
-  { key: 'radius', label: 'Radius', type: 'range', min: 0, max: 200 },
-  { key: 'pointsPerCurve', label: 'Resolution (Points)', type: 'range', min: 2, max: 300 },
-  { key: 'chaos', label: 'Enable Chaos', type: 'boolean' },
-  { key: 'alternating', label: 'Enable Alternating', type: 'boolean' },
-];
-
 export default function GlobalSettings({ config, getSetter }) {
   return (
     <div className="space-y-6 pt-2">
       <div className="bottom-divider space-y-4">
-        {GLOBAL_QUALITY_SCHEMA.filter(s => s.type === 'range').map(item => (
-          <ControlRangeSlider
-            key={item.key}
-            setterFunction={getSetter(item.key)}
-            labelText={item.label}
-            min={item.min}
-            max={item.max}
-            defaultValue={config[item.key]}
-          />
-        ))}
+        <ControlRangeSlider
+          setterFunction={getSetter('radius')}
+          labelText="Radius"
+          min={0}
+          max={200}
+          defaultValue={config.radius}
+          toolTipText="Sets the amplitude of the waves. High values create deeper curves."
+        />
+        
+        <ControlRangeSlider
+          setterFunction={getSetter('pointsPerCurve')}
+          labelText="Resolution (Points)"
+          min={2}
+          max={300}
+          defaultValue={config.pointsPerCurve}
+          toolTipText="The number of calculated points. More points make the lines smoother but can slow down the browser and increase the size of the output file."
+        />
       </div>
-      <div className="panel-card flex flex-col md:flex-row mt-8">
-        {GLOBAL_QUALITY_SCHEMA.filter(s => s.type === 'boolean').map(item => (
-          <Checkbox
-            key={item.key}
-            label={item.label}
-            isChecked={config[item.key]}
-            setterFunction={getSetter(item.key)}
-          />
-        ))}
+      <div className="panel-card flex flex-col md:flex-row mt-8 gap-4">
+        <Checkbox
+          label="Enable Chaos"
+          isChecked={config.chaos}
+          setterFunction={getSetter('chaos')}
+          toolTipText="Introduces random offsets to each point for a hand-drawn, organic feel."
+        />
+        
+        <Checkbox
+          label="Enable Alternating"
+          isChecked={config.alternating}
+          setterFunction={getSetter('alternating')}
+          toolTipText="Switches the direction of every other line to create a symmetrical pattern."
+        />
       </div>
     </div>
   );

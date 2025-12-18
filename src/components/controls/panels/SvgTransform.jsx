@@ -1,12 +1,8 @@
-
-
 import { useState } from "react"
 
 //UI
 import ControlRangeSlider from "@widgets/ControlRangeSlider"
 import RadioButtonsPanel from "@widgets/RadioButtonsPanel"
-
-
 
 export default function BackgroundTransformSettings({ config, getSetter }) {
     const [step, setStep] = useState(10); 
@@ -19,7 +15,8 @@ export default function BackgroundTransformSettings({ config, getSetter }) {
                     labelText={'Translate X'} 
                     defaultValue={config.translateX} 
                     setterFunction={getSetter('translateX')} 
-                    min={-1000} max={1000} 
+                    min={-1000} max={1000}
+                    toolTipText="Moves the pattern horizontally within the canvas."
                 />
                 <ControlRangeSlider 
                     step={step} 
@@ -27,13 +24,17 @@ export default function BackgroundTransformSettings({ config, getSetter }) {
                     defaultValue={config.translateY} 
                     setterFunction={getSetter('translateY')} 
                     min={-1000} max={1000} 
+                    toolTipText="Moves the pattern vertically within the canvas."
                 />
-                <RadioButtonsPanel 
-                    currentValue={step} 
-                    setterFunction={setStep} 
-                    groupName={'Step'} 
-                    arrayOButtons={[{label:'100', value: 100 }, {label:'50', value: 50}, {label:'10', value: 10}]} 
-                />
+                <div className="flex items-center gap-2">
+                    <RadioButtonsPanel 
+                        currentValue={step} 
+                        setterFunction={setStep} 
+                        groupName={'Step'} 
+                        arrayOButtons={[{label:'100', value: 100 }, {label:'50', value: 50}, {label:'10', value: 10}]} 
+                    />
+
+                </div>
             </div>
 
             <ControlRangeSlider 
@@ -41,12 +42,14 @@ export default function BackgroundTransformSettings({ config, getSetter }) {
                 defaultValue={config.scale} 
                 setterFunction={getSetter('scale')} 
                 min={0.1} max={5} step={0.05} 
+                toolTipText="Zooms the entire SVG in or out."
             />
             <ControlRangeSlider 
                 labelText={'Stroke Width'} 
-                defaultValue={config.scale} 
-                setterFunction={getSetter('stroke')} 
-                min={0.1} max={5} step={0.05} 
+                defaultValue={config.strokeWidth || 2} 
+                setterFunction={getSetter('stroke')}
+                min={0.1} max={20} step={0.1} 
+                toolTipText="Adjusts the thickness of the lines."
             />
         </div>
     );

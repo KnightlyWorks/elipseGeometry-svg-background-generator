@@ -54,8 +54,8 @@ export default function HorizontalWavyLines({ setCurves = () => {} }) {
     };
 
     return (
-        <div className="space-y-4 border-t border-gray-700 pt-4 mt-4">
-            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">
+        <div className="space-y-4 border-t border-border pt-4 mt-4">
+            <h3 className="text-sm font-bold text-text uppercase tracking-wider">
                 Generator Settings
             </h3>
             
@@ -65,31 +65,37 @@ export default function HorizontalWavyLines({ setCurves = () => {} }) {
                 min={3}
                 max={20}
                 defaultValue={8}
+                toolTipText="The number of horizontal layers to generate."
             />
 
             <ControlRangeSlider
                 setterFunction={setXDeviation}
-                labelText="X Spread (Edge randomness)"
+                labelText="X Spread"
                 min={0}
                 max={200}
                 defaultValue={100}
+                toolTipText="Controls horizontal randomness at the start and end of each line."
             />
             
             <ControlRangeSlider
                 setterFunction={setYChaos}
-                labelText="Y Flow (Vertical freedom)"
+                labelText="Y Flow"
                 min={10}
                 max={300} 
                 defaultValue={150}
+                toolTipText="Determines the vertical range of the curves. Higher values make the lines more 'wavy' and chaotic."
             />
 
             <button
                 type='button'
                 onClick={handleGenerate}
-                className="btn-primary"
+                className="btn-primary w-full py-2 text-text"
             >
                 Regenerate Lines
             </button>
+            <p className="text-[10px] text-text-tertiary text-center italic">
+                * Click regenerate to apply changes
+            </p>
         </div>
     );
 }

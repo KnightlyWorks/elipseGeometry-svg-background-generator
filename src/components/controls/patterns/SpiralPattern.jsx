@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Bezier } from 'bezier-js';
 import Checkbox from '@widgets/Checkbox';
 import ControlRangeSlider from '@widgets/ControlRangeSlider';
-
+import ToolTip from "@widgets/tooltips/Tooltip";
 function generateSpiralCurves({ 
     spiralCount, armsPerSpiral, centerX, centerY, maxRadius, rotations, organicChaos, offsetCenters
   }) {
@@ -68,8 +68,8 @@ export default function SpiralPattern({ setCurves = () => {} }) {
     const curves = generateSpiralCurves({
       spiralCount,
       armsPerSpiral,
-      centerX: 350,
-      centerY: 150,
+      centerX: 300, // Центрируем по viewBox 600x600
+      centerY: 300,
       maxRadius,
       rotations,
       organicChaos,
@@ -79,18 +79,58 @@ export default function SpiralPattern({ setCurves = () => {} }) {
   };
 
   return (
-    <div className="space-y-5 animate-in fade-in zoom-in-95 duration-300">   
+    <div className="space-y-5 animate-in fade-in zoom-in-95 duration-300 border-t border-border pt-4">   
+      <h3 className="text-sm font-bold text-text-secondary uppercase tracking-wider">
+          Spiral Architect
+      </h3>
+
       <div className='space-y-4'>
-          <ControlRangeSlider setterFunction={setSpiralCount} labelText="Number of Spirals" min={1} max={3} defaultValue={1} />
-          <ControlRangeSlider setterFunction={setArmsPerSpiral} labelText="Arms per Spiral" min={3} max={25} defaultValue={8} />
-          <ControlRangeSlider setterFunction={setMaxRadius} labelText="Radius (Size)" min={50} max={800} defaultValue={250} />
-          <ControlRangeSlider setterFunction={setRotations} labelText="Twists" min={0.2} max={3.2} defaultValue={1.2} />
+          <ControlRangeSlider 
+            setterFunction={setSpiralCount} 
+            labelText="Number of Spirals" 
+            min={1} max={3} 
+            defaultValue={1}
+            toolTipText="Generates multiple spiral centers for complex, overlapping patterns."
+          />
+          <ControlRangeSlider 
+            setterFunction={setArmsPerSpiral} 
+            labelText="Arms per Spiral" 
+            min={3} max={25} 
+            defaultValue={8}
+            toolTipText="The number of lines sprouting from each center."
+          />
+          <ControlRangeSlider 
+            setterFunction={setMaxRadius} 
+            labelText="Radius (Size)" 
+            min={50} max={800} 
+            defaultValue={250}
+            toolTipText="How far the arms reach from the center."
+          />
+          <ControlRangeSlider 
+            setterFunction={setRotations} 
+            labelText="Twists" 
+            min={0.2} max={5} 
+            step={0.1}
+            defaultValue={1.2}
+            toolTipText="Controls how many times each arm wraps around the center."
+          />
       </div>
 
-      <div className="grid grid-cols-2 gap-2 bg-background-elevated p-2 rounded-lg border border-border">
-        <Checkbox setterFunction={setOrganicChaos} isChecked={organicChaos} label={"Organic Chaos"} />
-        <div className={spiralCount <= 1 ? "opacity-50 pointer-events-none" : ""}>
-             <Checkbox setterFunction={setOffsetCenters} isChecked={offsetCenters} label={"Offset Centers"} />
+      <div className="grid grid-cols-1 gap-3 bg-background-elevated p-3 rounded-lg border border-border">
+        <Checkbox 
+            setterFunction={setOrganicChaos} 
+            isChecked={organicChaos} 
+            label={"Organic Chaos"} 
+            toolTipText="Randomizes point positions and rotation for a hand-drawn, natural effect."
+        />
+        
+        <div className={`transition-opacity duration-300 ${spiralCount <= 1 ? "opacity-30 pointer-events-none" : "opacity-100"}`}>
+             <Checkbox 
+                setterFunction={setOffsetCenters} 
+                isChecked={offsetCenters} 
+                label={"Offset Centers"} 
+                toolTipText="Spreads the centers apart. Only works when 'Number of Spirals' is more than 1."
+             />
         </div>
       </div>
 
@@ -101,6 +141,10 @@ export default function SpiralPattern({ setCurves = () => {} }) {
       >
         Generate Spiral
       </button>
+      
+      <p className="text-[10px] text-text-muted text-center italic">
+        * Spiral math requires a manual refresh
+      </p>
     </div>
   );
 }
