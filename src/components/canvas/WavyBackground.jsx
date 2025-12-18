@@ -8,14 +8,18 @@ import { DEFAULT_BEZIER_CURVES, MAIN_GRADIENT_ID } from './wavyBackground/consta
 import SvgGradientDef from '@components/svg/SvgGradientDef';
 
 export function WavyBackground({
-  curves, 
-  radius = 20, 
-  pointsPerCurve = 100, 
-  transformSVG = { scale: 1, translate: { x: 10, y: 0 } },
-  chaos = true, 
-  alternating = false,
-  activeStops = null,
-  setCodeString 
+  /* Shape Geometry */
+  curves,             // coordinates for Bezier paths
+  radius = 20,        // Bending amplitudes
+  pointsPerCurve = 100, // Resolution of the lines
+
+  /* Visual Style*/
+  chaos = true,       // Enables random variations in the paths
+  alternating = false, // Flips direction or style between curves
+  activeStops = null,  // Gradient color configuration (array of stops)
+  
+  transformSVG = { scale: 1, translate: { x: 10, y: 0 } }, 
+  setCodeString   
 }) {
   const svgRef = useRef(null);
 

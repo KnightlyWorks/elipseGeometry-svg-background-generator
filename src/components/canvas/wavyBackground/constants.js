@@ -13,8 +13,6 @@ export const CURVE_POINTS = [
 [10, 100, 10, 60, 40, 40, 40, 40]
 ];
 
-
-
 export const DEFAULT_BEZIER_CURVES = CURVE_POINTS.map(createBezierFromPoints);
 
 export const MAIN_GRADIENT_ID = 'Main-svg-gradient';
