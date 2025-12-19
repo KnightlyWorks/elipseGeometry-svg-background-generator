@@ -12,6 +12,7 @@ import ControlPanel from '@components/controls/Controls.jsx';
 import Header from '@components/layout/Header.jsx';
 import Footer from '@components/layout/Footer';
 
+import { DEFAULT_BEZIER_CURVES } from './constants/constants';
 export default function App() {
   // Generation Variables 
   const [genConfig, setGenConfig] = useState({
@@ -23,7 +24,7 @@ export default function App() {
   });
 
   // Pattern state
-  const [curves, setCurves] = useState();
+  const [curves, setCurves] = useState(DEFAULT_BEZIER_CURVES);
   const [curveVersion, setCurveVersion] = useState(0);
 
 

@@ -2,10 +2,13 @@ import React, { useMemo, useRef, useLayoutEffect } from 'react';
 
 // Utils
 import { generateOptimizedPaths } from './wavyBackground/pathGeneration';
-import { DEFAULT_BEZIER_CURVES, MAIN_GRADIENT_ID } from './wavyBackground/constants';
 
 // UI
 import SvgGradientDef from '@components/svg/SvgGradientDef';
+
+
+import { MAIN_GRADIENT_ID } from '/src/constants/constants';
+
 
 export function WavyBackground({
   
@@ -23,7 +26,7 @@ export function WavyBackground({
 
   const { path1, path2 } = useMemo(() => {
     return generateOptimizedPaths(
-      curves ?? DEFAULT_BEZIER_CURVES, 
+      curves, 
       radius, 
       pointsPerCurve,
       chaos,

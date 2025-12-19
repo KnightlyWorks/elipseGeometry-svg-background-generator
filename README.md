@@ -38,7 +38,7 @@ It is **not** optimized for:
 * beginner readability
 * quick onboarding
 
-If you're comfortable navigating complex React state and procedural logic, you'll feel at home.
+If you're comfortable navigating React state and procedural logic, you'll feel at home.
 
 ---
 
@@ -46,8 +46,8 @@ If you're comfortable navigating complex React state and procedural logic, you'l
 
 ```
 src/
-├── assets/                  # Static assets (logos, icons, and images)
-│   ├── patternsPreviews/    # Pattern preview images (naming must match JSX files)
+├── assets/                  # Static assets
+│   ├── patternsPreviews/    # Pattern preview images. Preview image files must have the same name as the pattern JSX files, supporting formats: .webp, .png, .svg, .jpeg, or .jpg.
 │   │   └── Placeholder.webp
 │   ├── close-icon.svg
 │   ├── footer-logo.svg
@@ -56,7 +56,6 @@ src/
 ├── components/
 │   ├── canvas/              # Main visualization components
 │   │   ├── wavyBackground/  # Path generation math & utilities
-│   │   │   ├── constants.js
 │   │   │   ├── pathGeneration.js
 │   │   │   └── waveTransforms.js
 │   │   └── WavyBackground.jsx
@@ -68,7 +67,7 @@ src/
 │   │   │   ├── SplitCurves.jsx
 │   │   │   └── SvgTransform.jsx
 │   │   ├── patterns/        # Pattern generation algorithms
-│   │   │   ├── index.jsx    # Pattern selector logic
+│   │   │   ├── index.jsx    # Pattern selector modal logic
 │   │   │   ├── HorizontalWavyLines.jsx
 │   │   │   └── SpiralPattern.jsx
 │   │   ├── widgets/         # Reusable UI components
@@ -79,22 +78,24 @@ src/
 │   │   │   ├── FieldSetGroup.jsx
 │   │   │   └── RadioButtonsPanel.jsx
 │   │   └── Controls.jsx
-│   ├── layout/              # Structural components
+│   ├── layout/              # Layout components
 │   │   ├── Footer.jsx
 │   │   └── Header.jsx
-│   └── svg/                 # SVG utilities and export/import logic
-│       ├── svgImportExport/ # Modals for SVG code manipulation
+│   └── svg/                 # SVG-related components
+│       ├── svgImportExport/ # Modals for SVG code manipulation (Import/Export/Edit)
 │       │   ├── SvgEditorModal.jsx
 │       │   ├── SvgExportModal.jsx
 │       │   └── SvgInputModal.jsx
 │       └── SvgGradientDef.jsx
+├── constants/               # Global application constants
+│   └── constants.js
 ├── hooks/                   # Custom React hooks
 │   ├── useBezierActions.js
 │   ├── useGradientStops.js
 │   └── useResizeObserver.js
 ├── styles/                  # Global styles
 │   └── index.css
-├── utils/                   # Math and string helper functions
+├── utils/                   # Helper functions
 │   ├── camelCaseToSpaced.js
 │   ├── createBezierFromPoints.js
 │   ├── idFromName.js
@@ -139,10 +140,6 @@ No React. No side effects.
 ---
 
 ## 🧪 Intended Use
-
-* Exploration of procedural SVG techniques
-* Reference for Bézier curve manipulation
-* Portfolio demonstration of complex React state handling
 
 This project is **not** a drop-in library.
 Feel free to copy ideas, patterns, or math.
