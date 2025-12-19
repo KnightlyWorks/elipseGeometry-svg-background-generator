@@ -5,7 +5,7 @@ import ToolTip from "@widgets/tooltips/Tooltip";
 export default function ControlRangeSlider({
   setterFunction, 
   min, 
-  max, 
+  max,
   defaultValue, 
   labelText, 
   step = 1, 
