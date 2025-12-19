@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Bezier } from 'bezier-js';
 import Checkbox from '@widgets/Checkbox';
 import ControlRangeSlider from '@widgets/ControlRangeSlider';
-import ToolTip from "@widgets/tooltips/Tooltip";
+
 function generateSpiralCurves({ 
     spiralCount, armsPerSpiral, centerX, centerY, maxRadius, rotations, organicChaos, offsetCenters
   }) {
@@ -68,7 +68,7 @@ export default function SpiralPattern({ setCurves = () => {} }) {
     const curves = generateSpiralCurves({
       spiralCount,
       armsPerSpiral,
-      centerX: 300, // Центрируем по viewBox 600x600
+      centerX: 300,
       centerY: 300,
       maxRadius,
       rotations,

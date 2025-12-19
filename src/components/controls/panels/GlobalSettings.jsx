@@ -13,7 +13,6 @@ export default function GlobalSettings({ config, getSetter }) {
           defaultValue={config.radius}
           toolTipText="Sets the amplitude of the waves. High values create deeper curves."
         />
-        
         <ControlRangeSlider
           setterFunction={getSetter('pointsPerCurve')}
           labelText="Resolution (Points)"
@@ -38,6 +37,11 @@ export default function GlobalSettings({ config, getSetter }) {
           toolTipText="Switches the direction of every other line to create a symmetrical pattern."
         />
       </div>
+      
     </div>
   );
 }
+
+
+
+ 

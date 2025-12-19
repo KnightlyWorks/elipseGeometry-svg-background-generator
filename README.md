@@ -1,4 +1,9 @@
+## About
+**This is an experimental generative SVG tool.**
+**Complexity is intentional.**
+
 ## Project Structure
+
 
 ```
 src/
@@ -60,3 +65,6 @@ src/
 - **`styles/`** - Global CSS and theme definitions
 - **`utils/`** - Pure utility functions
 - **`assets/`** - Images, icons, and static resources
+
+
+

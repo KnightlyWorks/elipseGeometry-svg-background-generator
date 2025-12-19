@@ -1,10 +1,14 @@
 import clsx from 'clsx';
-import { useState, useCallback } from 'react';
-
+import { useState, useCallback, useEffect } from 'react';
+//CAnvas
 import { WavyBackground } from '@components/canvas/WavyBackground.jsx';
+
+//Controls
 import ImportMenu from '@components/svg/svgImportExport/SvgInputModal';
 import ExportMenu from '@components/svg/svgImportExport/SvgExportModal';
 import ControlPanel from '@components/controls/Controls.jsx';
+
+//Layout
 import Header from '@components/layout/Header.jsx';
 import Footer from '@components/layout/Footer';
 
@@ -13,12 +17,19 @@ export default function App() {
   const [genConfig, setGenConfig] = useState({
     radius: 20,
     pointsPerCurve: 100,
+    frequency: 1,
     chaos: true,
     alternating: false,
   });
 
   // Pattern state
   const [curves, setCurves] = useState();
+  const [curveVersion, setCurveVersion] = useState(0);
+
+
+  useEffect(() => {
+    console.log(curves)
+  }, [curves])
 
   // SVG View State
   const [transformSVG, setTransformSVG] = useState({ 
@@ -35,9 +46,14 @@ export default function App() {
   const [activeModal, setActiveModal] = useState(null); // null | 'import' | 'export'
 
   // Handlers 
- const getSetter = useCallback((stateSetter) => (key) => (value) => {
-  stateSetter((prev) => ({ ...prev, [key]: value }));
-}, []);
+  const getSetter = useCallback((stateSetter) => (key) => (value) => {
+    stateSetter((prev) => ({ ...prev, [key]: value }));
+  }, []);
+
+  const handleNewPattern = (newCurves) => {
+    if (newCurves) setCurves(newCurves);
+    setCurveVersion(v => v + 1);
+  };
 
   const toggleSettingsMenu = () => setSettingsMenu((prev) => !prev);
   
@@ -80,6 +96,9 @@ export default function App() {
         
         getGenSetter={getSetter(setGenConfig)}
         getTransformSetter={getSetter(setTransformSVG)}
+
+        curveVersion={curveVersion} 
+        onGenerateNew={handleNewPattern}
         
         setCurves={setCurves}
         setActiveStops={setActiveStops}

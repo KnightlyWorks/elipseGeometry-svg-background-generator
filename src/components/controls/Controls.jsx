@@ -9,15 +9,18 @@ import BackgroundTransformSettings from "./panels/SvgTransform.jsx";
 import GradientEditor from "./panels/GradientEditor.jsx";
 import PatternSelectionPanel from "./panels/PatternSelectionPanel.jsx";
 import GridOfPreviews from "./patterns/index.jsx";
+import SplitCurveButton from "./panels/SplitCurves.jsx";
 
 export default function ControlPanel({ 
   transformSvgConfig,
   globalQualityConfig, 
   getGenSetter, 
   getTransformSetter,  
-  setCurves, 
+  setCurves, //for split only
   isOpen,  
-  setActiveStops 
+  setActiveStops,
+  onGenerateNew, // for generation only
+  curveVersion
 }) {
     const [GenerationComponent, setGenerationComponent] = useState(null);
     const [generationComponentModalIsOpen, setGenerationComponentModalIsOpen] = useState(false);
@@ -31,15 +34,18 @@ export default function ControlPanel({
         )}>
             <div className="p-1 lg:p-4 space-y-6">
                 
-                <FieldSetGroup legend={"Global Quality"}>
-                    <GlobalSettings config={globalQualityConfig} getSetter={getGenSetter} />
+                <FieldSetGroup  legend={"Global Quality"}>
+                    <div className="space-y-6">
+                        <GlobalSettings config={globalQualityConfig} getSetter={getGenSetter} />
+                        <SplitCurveButton key={curveVersion} setCurves={setCurves} curveVersion={curveVersion} />
+                    </div>
                 </FieldSetGroup>
 
                 <FieldSetGroup legend={"Pattern Generator"}>
                     <PatternSelectionPanel 
                         GenerationComponent={GenerationComponent} 
                         setGenerationComponentModalIsOpen={setGenerationComponentModalIsOpen} 
-                        setCurves={setCurves} 
+                        setCurves={onGenerateNew} 
                     />
                 </FieldSetGroup>
 

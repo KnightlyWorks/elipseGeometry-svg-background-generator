@@ -1,5 +1,3 @@
-import React from 'react';
-
 const SvgGradientDef = ({ id, stops }) => {
   if (!stops || stops.length === 0) return null;
 
