@@ -1,12 +1,58 @@
-## About
-**This is an experimental generative SVG tool.**
-**Complexity is intentional.**
+## 🌀 Generative SVG Waves
 
-## Project Structure
+An experimental generative SVG tool focused on procedural Bézier curves, wave transformations, and controlled visual complexity.
 
+This project exists as:
+
+* a **playground for generative geometry**
+* a **stress test for complex React state**
+* a **portfolio piece**, not a product
+
+> Complexity is intentional.
+> Readability is local.
+> Determinism is preferred over magic.
+
+---
+
+## ✨ Features
+
+* Procedural SVG path generation based on cubic Bézier curves
+* Curve splitting and optimization workflows
+* Modular pattern system (pluggable generators)
+* Gradient editor with live SVG output
+* SVG transform controls (scale, translate, stroke)
+* Exportable SVG markup
+* No canvas, no WebGL — pure SVG
+
+---
+
+## 🧠 Design Philosophy
+
+This project intentionally embraces:
+
+* **non-trivial state graphs**
+
+It is **not** optimized for:
+
+* minimal abstractions
+* beginner readability
+* quick onboarding
+
+If you're comfortable navigating complex React state and procedural logic, you'll feel at home.
+
+---
+
+## 🗂 Project Structure
 
 ```
 src/
+├── assets/                  # Static assets (logos, icons, and images)
+│   ├── patternsPreviews/    # Pattern preview images (naming must match JSX files)
+│   │   └── Placeholder.webp
+│   ├── close-icon.svg
+│   ├── footer-logo.svg
+│   ├── github-mark-white.png
+│   └── logo.svg
 ├── components/
 │   ├── canvas/              # Main visualization components
 │   │   ├── wavyBackground/  # Path generation math & utilities
@@ -15,56 +61,102 @@ src/
 │   │   │   └── waveTransforms.js
 │   │   └── WavyBackground.jsx
 │   ├── controls/            # Control panel and settings UI
-│   │   ├── Controls.jsx     # Main control panel container
 │   │   ├── panels/          # Configuration panels for different features
+│   │   │   ├── GlobalSettings.jsx
 │   │   │   ├── GradientEditor.jsx
 │   │   │   ├── PatternSelectionPanel.jsx
-│   │   │   ├── SvgTransform.jsx
-│   │   │   └── ...
+│   │   │   ├── SplitCurves.jsx
+│   │   │   └── SvgTransform.jsx
 │   │   ├── patterns/        # Pattern generation algorithms
-│   │   │   ├── index.jsx    # Pattern selector modal
+│   │   │   ├── index.jsx    # Pattern selector logic
 │   │   │   ├── HorizontalWavyLines.jsx
-│   │   │   ├── SpiralPattern.jsx
-│   │   │   └── ...
-│   │   └── widgets/         # Reusable UI components
-│   │       ├── Checkbox.jsx
-│   │       ├── ControlRangeSlider.jsx
-│   │       ├── FieldSetGroup.jsx
-│   │       ├── RadioButtonsPanel.jsx
-│   │       └── ...
-│   ├── layout/              # Layout components
+│   │   │   └── SpiralPattern.jsx
+│   │   ├── widgets/         # Reusable UI components
+│   │   │   ├── tooltips/
+│   │   │   │   └── Tooltip.jsx
+│   │   │   ├── Checkbox.jsx
+│   │   │   ├── ControlRangeSlider.jsx
+│   │   │   ├── FieldSetGroup.jsx
+│   │   │   └── RadioButtonsPanel.jsx
+│   │   └── Controls.jsx
+│   ├── layout/              # Structural components
+│   │   ├── Footer.jsx
 │   │   └── Header.jsx
-│   └── svg/                 # SVG-related utilities
+│   └── svg/                 # SVG utilities and export/import logic
+│       ├── svgImportExport/ # Modals for SVG code manipulation
+│       │   ├── SvgEditorModal.jsx
+│       │   ├── SvgExportModal.jsx
+│       │   └── SvgInputModal.jsx
 │       └── SvgGradientDef.jsx
 ├── hooks/                   # Custom React hooks
-│   └── useGradientStops.js
+│   ├── useBezierActions.js
+│   ├── useGradientStops.js
+│   └── useResizeObserver.js
 ├── styles/                  # Global styles
 │   └── index.css
-├── utils/                   # Helper functions
+├── utils/                   # Math and string helper functions
 │   ├── camelCaseToSpaced.js
-│   └── idFromName.js
-├── assets/                  # Static assets
-│   ├── logo.svg
-│   └── patternsPreviews/    # Pattern preview images. Preview image files must have the same name as the pattern JSX files, supporting formats: .webp, .png, .svg, .jpeg, or .jpg.
-│       └── Placeholder.webp
+│   ├── createBezierFromPoints.js
+│   ├── idFromName.js
+│   └── splitCubicBezier.js
 ├── App.jsx                  # Root application component
 └── main.jsx                 # Application entry point
 ```
 
-### Directory Overview
+---
 
-- **`components/canvas/`** - Core visualization layer, handles SVG rendering
-  - **`wavyBackground/`** - Pure math functions for path generation and wave transformations
-- **`components/controls/`** - All UI controls and configuration interfaces
-  - **`panels/`** - Feature-specific configuration panels
-  - **`patterns/`** - Pluggable pattern generation algorithms (each contains its own logic)
-  - **`widgets/`** - Generic, reusable form components
-- **`components/layout/`** - App shell and navigation components
-- **`components/svg/`** - SVG definitions and utilities
-- **`hooks/`** - Shared React hooks for state management
-- **`styles/`** - Global CSS and theme definitions
-- **`utils/`** - Pure utility functions
-- **`assets/`** - Images, icons, and static resources
+## 🧩 Key Directories Explained
 
+### `components/canvas/`
 
+Responsible for **all SVG generation and rendering**.
+This is where the math lives.
 
+* `wavyBackground/` contains:
+
+  * constants
+  * path generation logic
+  * wave and curve transformations
+
+### `components/controls/`
+
+UI layer for manipulating parameters.
+Controls **never generate geometry directly** — they only affect state.
+
+### `hooks/`
+
+Custom hooks encapsulating:
+
+* curve operations
+* gradient state
+* resize and layout observers
+
+### `utils/`
+
+Pure, deterministic helper functions.
+No React. No side effects.
+
+---
+
+## 🧪 Intended Use
+
+* Exploration of procedural SVG techniques
+* Reference for Bézier curve manipulation
+* Portfolio demonstration of complex React state handling
+
+This project is **not** a drop-in library.
+Feel free to copy ideas, patterns, or math.
+
+---
+
+## ⚠️ Notes for Future Readers
+
+* Some files may look intimidating — this is expected
+* If something works and you don't know why, test before refactoring
+* Visual correctness is often prioritized over abstraction purity
+
+---
+
+## 📄 License
+Do whatever you want. MIT LICENSE
+[See full License](./LICENSE)
