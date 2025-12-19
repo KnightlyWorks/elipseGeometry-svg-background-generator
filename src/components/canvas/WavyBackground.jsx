@@ -18,7 +18,7 @@ export function WavyBackground({
   alternating = false,
 
   curves,
-  activeStops = null,
+  activeColors = {},
   transformSVG = { scale: 1, translateX: 0, translateY: 0, stroke: 1 }, 
   setCodeString   
 }) {
@@ -34,12 +34,21 @@ export function WavyBackground({
     );
   }, [curves, radius, pointsPerCurve, chaos, alternating]);
 
+  const isGradient = activeColors?.type && activeColors?.color;
+  const isSolidColor = !activeColors?.type && activeColors?.color;
+
+  const getStroke = (defaultColor) => {
+    if (isGradient) return `url(#${MAIN_GRADIENT_ID})`;
+    if (isSolidColor) return activeColors.color;
+    return defaultColor;
+  };
+
   useLayoutEffect(() => {
     if (svgRef.current && setCodeString) {
       const svgCode = svgRef.current.innerHTML;
       setCodeString(svgCode);
     }
-  }, [path1, path2, transformSVG, activeStops, setCodeString]);
+  }, [path1, path2, transformSVG, activeColors, setCodeString]);
 
   const { scale, translateX, translateY, stroke } = transformSVG;
   const transformStr = `translate(${translateX} ${translateY}) scale(${scale})`;
@@ -51,19 +60,19 @@ export function WavyBackground({
           viewBox="0 0 600 600" 
           xmlns="http://www.w3.org/2000/svg"
         >
-          {activeStops && (
-            <SvgGradientDef id={MAIN_GRADIENT_ID} stops={activeStops} />
+          {activeColors.color && activeColors.type && (
+            <SvgGradientDef id={MAIN_GRADIENT_ID} stops={activeColors.color} />
           )}
           <g transform={transformStr}>
             <path 
               d={path1} 
-              stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'blue'} 
+              stroke={getStroke('blue')}
               fill='none' 
               strokeWidth={`${stroke}`} 
             />
             <path 
               d={path2} 
-              stroke={activeStops ? `url(#${MAIN_GRADIENT_ID})` : 'red'}  
+              stroke={getStroke('red')}
               fill='none' 
               strokeWidth={`${stroke}`} 
               strokeOpacity="0.7"

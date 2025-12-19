@@ -18,7 +18,7 @@ export default function ControlPanel({
   getTransformSetter,  
   setCurves, //for split only
   isOpen,  
-  setActiveStops,
+  setActiveColors,
   onGenerateNew, // for generation only
   curveVersion
 }) {
@@ -54,7 +54,7 @@ export default function ControlPanel({
                 </FieldSetGroup>
 
                 <FieldSetGroup legend={"Color"}>
-                    <GradientEditor onApply={setActiveStops} />
+                    <GradientEditor onApply={setActiveColors} />
                 </FieldSetGroup>
 
                 {generationComponentModalIsOpen && (

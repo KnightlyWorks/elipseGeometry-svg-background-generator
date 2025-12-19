@@ -39,7 +39,7 @@ export default function App() {
     translateY: 0,
     stroke: 1 
   });
-  const [activeStops, setActiveStops] = useState(null);
+  const [activeColors, setActiveColors] = useState('linear-gradient(90deg, rgba(96,93,93,1) 0%, rgba(255,255,255,1) 100%)');
   const [codeString, setCodeString] = useState('');
 
   // UI States
@@ -102,7 +102,7 @@ export default function App() {
         onGenerateNew={handleNewPattern}
         
         setCurves={setCurves}
-        setActiveStops={setActiveStops}
+        setActiveColors={setActiveColors}
         isOpen={isSettingsMenuOpen}
       />
         
@@ -110,7 +110,7 @@ export default function App() {
           {...genConfig} 
           transformSVG={transformSVG}
           curves={curves}
-          activeStops={activeStops}
+          activeColors={activeColors}
           setCodeString={setCodeString}
         />
       </div>
