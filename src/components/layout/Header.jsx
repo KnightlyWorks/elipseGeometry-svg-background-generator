@@ -1,40 +1,71 @@
-import Logo from '@assets/logo.svg'
-import CloseIcon from '@assets/close-icon.svg'
 
-export default function Header ({toggleSettingsFunction, isSettingsOpen = false, children}) {
+import Logo from '@assets/logo.svg';
+import CloseIcon from '@assets/close-icon.svg';
+import { useHistoryHotkeys } from '@hooks/useHistoryHotkeys';
+import MenuButton from './headerComponents/MenuButton';
+import HistoryControls from './headerComponents/HistoryControls';
 
-    return (
-        <header className='flex items-center justify-between p-4  bg-background-elevated border-b-purple-700 border-b-2 mb-4 rounded-b-xl shadow-[0_25px_35px_rgba(126,34,206,0.25)]'>
-            <img src={Logo} />
+const HeaderLogo = () => (
+  <img src={Logo} alt="Logo" className="w-24 h-12 object-contain" />
+);
 
-            <div className='flex items-center gap-4 justify-self-end'>
-                {children}
-            </div>
-            <MenuButton toggleSettingsFunction={toggleSettingsFunction}>
-                {
-                isSettingsOpen ?
-                <img className='text-purple-600' src={CloseIcon} />
-                :
-                <svg className='text-purple-600' width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 7L4 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M20 12L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M20 17L4 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                }
-            </MenuButton> 
-        </header>
-    )
+const BurgerIcon = () => (
+  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M4 7h16M4 12h16M4 17h16" />
+  </svg>
+);
+
+export default function Header({ 
+  toggleSettingsFunction, 
+  isSettingsOpen = false, 
+  children, 
+  undo, 
+  redo, 
+  canUndo, 
+  canRedo, 
+}) {
+  useHistoryHotkeys({ undo, redo, canUndo, canRedo });
+
+  const historyProps = { undo, redo, canUndo, canRedo };
+
+  const SettingsTrigger = (
+    <MenuButton onClick={toggleSettingsFunction} isOpen={isSettingsOpen}>
+      {isSettingsOpen ? (
+        <img src={CloseIcon} alt="Close" className="min-w-8 aspect-square" />
+      ) : (
+        <BurgerIcon />
+      )}
+    </MenuButton>
+  );
+
+  return (
+    <header className="p-4 bg-background-elevated border-b border-purple-700/50 mb-6 rounded-b-2xl shadow-card">
+      
+      {/* Mobile Version */}
+      <div className="flex flex-col gap-4 md:hidden">
+        <div className="flex gap-4 items-center">
+          <HistoryControls {...historyProps} />
+          {children}
+        </div>
+        <div className='flex justify-between items-center w-full'>
+          <HeaderLogo />
+          {SettingsTrigger}
+        </div>
+      </div>
+
+      {/* Desktop Version */}
+      <div className='hidden md:flex items-center justify-between w-full'>
+        <HeaderLogo />
+        
+        <div className="flex items-center gap-8">
+          <HistoryControls {...historyProps} />
+          <div className="flex">{children}</div>
+          {SettingsTrigger}
+        </div>
+      </div>
+
+    </header>
+  );
 }
 
 
-function MenuButton ({children, toggleSettingsFunction}) {
-    return (
-        <button 
-        className='
-        w-fit rounded-full p-2 font-medium text-white transition-all duration-200
-        bg-[image:--gradient-primary] hover:shadow-glow hover:opacity-90 active:scale-[0.97]' 
-        onClick={(e) => {e.stopPropagation(); toggleSettingsFunction()}}>
-            {children}
-        </button>
-    )
-}

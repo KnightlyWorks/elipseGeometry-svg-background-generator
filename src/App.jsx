@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useState, useCallback, useEffect } from 'react';
+import { useUndoRedo } from '@hooks/useUndoRedo';
 //CAnvas
 import { WavyBackground } from '@components/canvas/WavyBackground.jsx';
 
@@ -24,7 +25,14 @@ export default function App() {
   });
 
   // Pattern state
-  const [curves, setCurves] = useState(DEFAULT_BEZIER_CURVES);
+   const {
+    state: curves,
+    setState: setCurves,  // useState functions in hook
+    undo,                 
+    redo,                
+    canUndo,              
+    canRedo,              
+  } = useUndoRedo(DEFAULT_BEZIER_CURVES); 
   const [curveVersion, setCurveVersion] = useState(0);
 
 
@@ -69,6 +77,10 @@ export default function App() {
       <Header 
         toggleSettingsFunction={toggleSettingsMenu} 
         isSettingsOpen={isSettingsMenuOpen}
+        undo={undo}
+        redo={redo}
+        canRedo={canRedo}
+        canUndo={canUndo}
       >
         <ToggleButton 
           legend={'Import SVG'} 

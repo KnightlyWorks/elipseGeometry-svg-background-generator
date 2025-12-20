@@ -1,76 +1,69 @@
 ## 🌀 Generative SVG Waves
 
-An experimental generative SVG tool focused on procedural Bézier curves, wave transformations, and controlled visual complexity.
+A playground for creating procedural geometry and experimenting with SVG paths.
 
-This project exists as:
+This project is a personal portfolio piece designed to explore:
 
-* a **playground for generative geometry**
-* a **stress test for complex React state**
-* a **portfolio piece**, not a product
+* **Generative geometry** (Bézier curves & wave math)
+* **Complex React state management**
+* **Pure SVG manipulation** without Canvas or WebGL
 
-> Complexity is intentional.
-> Readability is local.
-> Determinism is preferred over magic.
+> **Note:** This is an experimental sandbox, not a production-ready library. It prioritizes visual flexibility and math experimentation over architectural simplicity.
 
 ---
 
 ## ✨ Features
 
-* Procedural SVG path generation based on cubic Bézier curves
-* Curve splitting and optimization workflows
-* Modular pattern system (pluggable generators)
-* Gradient editor with live SVG output
-* SVG transform controls (scale, translate, stroke)
-* Exportable SVG markup
-* No canvas, no WebGL — pure SVG
+* **Procedural Generation:** Create patterns based on cubic Bézier curves.
+* **Math & Optimization:** Includes workflows for curve splitting and path optimization.
+* **Modular System:** Easily plug in new pattern generators.
+* **Live Editing:**
+* Gradient editor with real-time preview.
+* Full transform controls (scale, translate, stroke).
+
+
+* **Export:** Get raw SVG markup ready for use.
 
 ---
 
-## 🧠 Design Philosophy
+## 🧠 Tech Stack & Approach
 
-This project intentionally embraces:
+The codebase is heavy on math and state logic. Here is what to expect:
 
-* **non-trivial state graphs**
+* **State Management:** The app uses a complex state graph to handle the interactions between controls and geometry.
+* **No External Graphics Libs:** All visuals are calculated via raw math and rendered as standard DOM SVG elements.
+* **Custom Hooks:** Logic for history (undo/redo), resizing, and gradient stops is encapsulated in hooks.
 
-It is **not** optimized for:
-
-* minimal abstractions
-* beginner readability
-* quick onboarding
-
-If you're comfortable navigating React state and procedural logic, you'll feel at home.
+If you enjoy digging into procedural logic and React performance optimization, you'll find interesting patterns here.
 
 ---
 
 ## 🗂 Project Structure
 
-```
+ ```
+
 src/
-├── assets/                  # Static assets
-│   ├── patternsPreviews/    # Pattern preview images. Preview image files must have the same name as the pattern JSX files, supporting formats: .webp, .png, .svg, .jpeg, or .jpg.
+├── assets/                    # Static assets (icons, branding)
+│   ├── patternsPreviews/      # Pattern preview images. Filenames must match pattern JSX names.
 │   │   └── Placeholder.webp
-│   ├── close-icon.svg
-│   ├── footer-logo.svg
 │   ├── github-mark-white.png
-│   └── logo.svg
+│   └── ...
 ├── components/
-│   ├── canvas/              # Main visualization components
-│   │   ├── wavyBackground/  # Path generation math & utilities
+│   ├── canvas/                # Core visualization components
+│   │   ├── wavyBackground/    # Path generation logic and mathematical utilities
 │   │   │   ├── pathGeneration.js
 │   │   │   └── waveTransforms.js
 │   │   └── WavyBackground.jsx
-│   ├── controls/            # Control panel and settings UI
-│   │   ├── panels/          # Configuration panels for different features
+│   ├── controls/              # UI for settings and configuration
+│   │   ├── panels/            # Feature-specific configuration panels
 │   │   │   ├── GlobalSettings.jsx
-│   │   │   ├── GradientEditor.jsx
-│   │   │   ├── PatternSelectionPanel.jsx
-│   │   │   ├── SplitCurves.jsx
-│   │   │   └── SvgTransform.jsx
-│   │   ├── patterns/        # Pattern generation algorithms
-│   │   │   ├── index.jsx    # Pattern selector modal logic
+│   │   │   └── ...
+│   │   ├── patterns/          # Geometry generation algorithms
+│   │   │   ├── index.jsx      # Pattern selector logic and modal
 │   │   │   ├── HorizontalWavyLines.jsx
-│   │   │   └── SpiralPattern.jsx
-│   │   ├── widgets/         # Reusable UI components
+│   │   │   ├── SpiralPattern.jsx
+│   │   │   └── ...
+│   │   ├── widgets/           # Atomic, reusable UI components
 │   │   │   ├── tooltips/
 │   │   │   │   └── Tooltip.jsx
 │   │   │   ├── Checkbox.jsx
@@ -78,82 +71,58 @@ src/
 │   │   │   ├── FieldSetGroup.jsx
 │   │   │   └── RadioButtonsPanel.jsx
 │   │   └── Controls.jsx
-│   ├── layout/              # Layout components
+│   ├── layout/                # Structural layout components
+│   │   ├── headerComponents/  # Specialized header UI elements
+│   │   │   ├── HistoryControls.jsx  # Undo/Redo buttons
+│   │   │   └── MenuButton.jsx
 │   │   ├── Footer.jsx
 │   │   └── Header.jsx
-│   └── svg/                 # SVG-related components
-│       ├── svgImportExport/ # Modals for SVG code manipulation (Import/Export/Edit)
+│   └── svg/                   # SVG-specific processing and components
+│       ├── svgImportExport/   # Modals for raw SVG code manipulation
 │       │   ├── SvgEditorModal.jsx
 │       │   ├── SvgExportModal.jsx
 │       │   └── SvgInputModal.jsx
 │       └── SvgGradientDef.jsx
-├── constants/               # Global application constants
+├── constants/                 # Global application-wide constants
 │   └── constants.js
-├── hooks/                   # Custom React hooks
+├── hooks/                     # Custom React hooks
 │   ├── useBezierActions.js
 │   ├── useGradientStops.js
-│   └── useResizeObserver.js
-├── styles/                  # Global styles
+│   ├── useHistoryHotkeys.js   # Global keyboard listener for Undo/Redo
+│   ├── useResizeObserver.js   # Dynamic element dimension tracking
+│   └── useUndoRedo.js         # Core state history management
+
+├── styles/                    # Global CSS and styling
 │   └── index.css
-├── utils/                   # Helper functions
+├── utils/                     # Generic helper functions
 │   ├── camelCaseToSpaced.js
 │   ├── createBezierFromPoints.js
 │   ├── idFromName.js
 │   └── splitCubicBezier.js
-├── App.jsx                  # Root application component
-└── main.jsx                 # Application entry point
-```
+├── App.jsx                    # Root application entry point
+└── main.jsx                   # React mounting and initialization
+
+``` 
 
 ---
 
-## 🧩 Key Directories Explained
+## 🧪 Quick Guide to Key Folders
 
-### `components/canvas/`
-
-Responsible for **all SVG generation and rendering**.
-This is where the math lives.
-
-* `wavyBackground/` contains:
-
-  * constants
-  * path generation logic
-  * wave and curve transformations
-
-### `components/controls/`
-
-UI layer for manipulating parameters.
-Controls **never generate geometry directly** — they only affect state.
-
-### `hooks/`
-
-Custom hooks encapsulating:
-
-* curve operations
-* gradient state
-* resize and layout observers
-
-### `utils/`
-
-Pure, deterministic helper functions.
-No React. No side effects.
+* **`components/canvas/wavyBackground/`**: This is the heart of the project. It contains the logic that converts math into SVG paths.
+* **`components/controls/`**: Contains the UI panels. These components only modify the global state.
+* **`utils/`**: Helper functions for geometry and data formatting. These are pure functions and easy to test.
 
 ---
 
-## 🧪 Intended Use
+## 📝 A Note on Code Style
 
-This project is **not** a drop-in library.
-Feel free to copy ideas, patterns, or math.
+Since this is an experimental project, you might encounter dense logic in the visualization components. We prioritized getting the *visual math* right, which sometimes means the code is more complex than a typical CRUD application.
 
----
-
-## ⚠️ Notes for Future Readers
-
-* Some files may look intimidating — this is expected
-* If something works and you don't know why, test before refactoring
-* Visual correctness is often prioritized over abstraction purity
+Feel free to copy parts of the math logic or pattern generators for your own projects!
 
 ---
 
 ## 📄 License
-Do whatever you want. MIT LICENSE
-[See full License](./LICENSE)
+
+MIT License. Feel free to use this code however you like.
+[See full License](https://www.google.com/search?q=./LICENSE)
