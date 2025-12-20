@@ -1,53 +1,78 @@
-import { useState, useCallback } from 'react';
+import { useReducer } from 'react';
+
+const MAX_HISTORY = 50;
+
+function undoRedoReducer(state, action) {
+  const { history, index } = state;
+
+  switch (action.type) {
+    case 'SET': {
+      const resolvedState = typeof action.payload === 'function'
+        ? action.payload(history[index])
+        : action.payload;
+
+      if (resolvedState === history[index]) {
+        return state;
+      }
+      const nextHistory = [...history.slice(0, index + 1), resolvedState];
+
+      if (nextHistory.length > MAX_HISTORY) {
+        nextHistory.shift(); 
+      }
+
+      return {
+        history: nextHistory,
+        index: nextHistory.length - 1,
+      };
+    }
+
+    case 'UNDO': {
+      if (index <= 0) return state;
+      return {
+        ...state,
+        index: index - 1,
+      };
+    }
+
+    case 'REDO': {
+      if (index >= history.length - 1) return state;
+      return {
+        ...state,
+        index: index + 1,
+      };
+    }
+
+    case 'RESET': {
+      return {
+        history: [action.payload],
+        index: 0
+      };
+    }
+
+    default:
+      return state;
+  }
+}
 
 export function useUndoRedo(initialState) {
-    const [history, setHistory] = useState([initialState]);
+  const [state, dispatch] = useReducer(undoRedoReducer, {
+    history: [initialState],
+    index: 0,
+  });
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+  const setState = (newState) => dispatch({ type: 'SET', payload: newState });
+  const undo = () => dispatch({ type: 'UNDO' });
+  const redo = () => dispatch({ type: 'REDO' });
+  const reset = (payload) => dispatch({ type: 'RESET', payload });
 
-    const currentState = history[currentIndex];
-
-    const setState = useCallback((newState) => {
-        setHistory(prev => {
-
-            const newHistory = prev.slice(0, currentIndex + 1);
-            newHistory.push(newState);
-
-            if (newHistory.length > 50) {
-                newHistory.shift(); 
-            } else {
-                setCurrentIndex(newHistory.length - 1);
-            }
-
-            return newHistory;
-        });
-
-        if (history.length >= 50) {
-            return
-        }
-    }, [currentIndex, history.length]);
-
-    const undo = useCallback(() => {
-        if (currentIndex > 0) {
-            setCurrentIndex(prev => prev - 1);
-        }
-    }, [currentIndex]);
-
-    const redo = useCallback(() => {
-        if (currentIndex < history.length - 1) {
-            setCurrentIndex(prev => prev + 1);
-        }
-    }, [currentIndex, history.length]);
-
-    const canUndo = currentIndex > 0;
-    const canRedo = currentIndex < history.length - 1;
-
-    return {
-        state: currentState,
-        setState,
-        undo,
-        redo,
-        canUndo,
-        canRedo,
-    };
+  return {
+    state: state.history[state.index],
+    setState,   
+    undo,
+    redo,
+    reset, 
+    history: state.history, 
+    canUndo: state.index > 0,
+    canRedo: state.index < state.history.length - 1,
+  };
 }
