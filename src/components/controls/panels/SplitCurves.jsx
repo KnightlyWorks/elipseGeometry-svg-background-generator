@@ -19,7 +19,7 @@ export default function SplitCurveButton({ setCurves }) {
     >
       {isPending ? 'Splitting...' : 'Split All Curves '}
     </button> 
-    <p className="text-[10px] text-text-tertiary text-center italic">
+    <p className="text-help">
         *For optimization purposes, the number of divisions is limited to 4. The current number of divisions is: {splitCounter}
     </p>
   </>

@@ -57,7 +57,7 @@ const GradientEditor = ({ onApply }) => {
                 >
                   Delete Selected Point
                 </button>
-                <p className="text-[10px] text-text-tertiary text-center italic">
+                <p className="text-help">
                   *Can delete when more then 2 points
               </p>
               </div>
@@ -85,7 +85,7 @@ const GradientEditor = ({ onApply }) => {
             </button>
             
             {isGradient && (
-              <p className="text-text-muted text-xs mt-3 md:mt-0">
+              <p className="text-help">
                 {stops?.length || 0} color stops generated
               </p>
             )}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Bezier } from 'bezier-js';
 import Checkbox from '@widgets/Checkbox';
 import ControlRangeSlider from '@widgets/ControlRangeSlider';
@@ -64,6 +64,7 @@ export default function SpiralPattern({ setCurves = () => {} }) {
   const [organicChaos, setOrganicChaos] = useState(false);
   const [offsetCenters, setOffsetCenters] = useState(false);
 
+
   const handleGenerate = () => {
     const curves = generateSpiralCurves({
       spiralCount,
@@ -79,7 +80,7 @@ export default function SpiralPattern({ setCurves = () => {} }) {
   };
 
   return (
-    <div className="space-y-5 animate-in fade-in zoom-in-95 duration-300 border-t border-border pt-4">   
+    <div className="space-y-5 duration-300 border-t border-border pt-4">   
       <h3 className="text-sm font-bold text-text-secondary uppercase tracking-wider">
           Spiral Architect
       </h3>
@@ -142,7 +143,7 @@ export default function SpiralPattern({ setCurves = () => {} }) {
         Generate Spiral
       </button>
       
-      <p className="text-[10px] text-text-muted text-center italic">
+      <p className="text-help">
         * Spiral math requires a manual refresh
       </p>
     </div>

@@ -93,7 +93,7 @@ export default function HorizontalWavyLines({ setCurves = () => {} }) {
             >
                 Regenerate Lines
             </button>
-            <p className="text-[10px] text-text-tertiary text-center italic">
+            <p className="text-help">
                 * Click regenerate to apply changes
             </p>
         </div>
