@@ -1,4 +1,3 @@
-// patterns/HorizontalWavyLines.jsx
 import { useState } from 'react';
 import { Bezier } from 'bezier-js';
 import ControlRangeSlider from '@widgets/ControlRangeSlider';
