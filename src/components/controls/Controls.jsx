@@ -16,11 +16,10 @@ export default function ControlPanel({
   globalQualityConfig, 
   getGenSetter, 
   getTransformSetter,  
-  setCurves, //for split only
+  setCurves, 
   isOpen,  
   setActiveColors,
-  onGenerateNew, // for generation only
-  curveVersion
+  curvesLength
 }) {
     const [GenerationComponent, setGenerationComponent] = useState(null);
     const [generationComponentModalIsOpen, setGenerationComponentModalIsOpen] = useState(false);
@@ -37,7 +36,7 @@ export default function ControlPanel({
                 <FieldSetGroup  legend={"Global Quality"}>
                     <div className="space-y-6">
                         <GlobalSettings config={globalQualityConfig} getSetter={getGenSetter} />
-                        <SplitCurveButton key={curveVersion} setCurves={setCurves} curveVersion={curveVersion} />
+                        <SplitCurveButton curvesLength={curvesLength}  setCurves={setCurves} />
                     </div>
                 </FieldSetGroup>
 
@@ -45,7 +44,7 @@ export default function ControlPanel({
                     <PatternSelectionPanel 
                         GenerationComponent={GenerationComponent} 
                         setGenerationComponentModalIsOpen={setGenerationComponentModalIsOpen} 
-                        setCurves={onGenerateNew} 
+                        setCurves={setCurves} 
                     />
                 </FieldSetGroup>
 

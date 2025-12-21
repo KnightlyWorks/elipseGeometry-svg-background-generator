@@ -121,18 +121,6 @@ Since this is an experimental project, you might encounter dense logic in the vi
 Feel free to copy parts of the math logic or pattern generators for your own projects!
 
 ---
-## 🐛 Known Issues
-
-### 1. Split Counter Desynchronization with Undo/Redo
-
-**Description:**
-The **"Split All Curves"** button utilizes a local interaction counter to limit subdivisions (max 4) for performance safety. This local state is not synchronized with the global `Undo/Redo` history stack.
-
-**Behavior:**
-If a user splits the curves and then performs an **Undo** action, the curves will revert to their previous state, but the "Split" button will retain its incremented counter value.
-
-**Workaround:**
-Refreshing the page  or generate new pattern resets the split counter.
 
 ## 📄 License
 

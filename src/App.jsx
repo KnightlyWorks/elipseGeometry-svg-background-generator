@@ -33,7 +33,7 @@ export default function App() {
     canUndo,              
     canRedo,              
   } = useUndoRedo(DEFAULT_BEZIER_CURVES); 
-  const [curveVersion, setCurveVersion] = useState(0);
+  const curvesLength = curves.length || 0
 
 
   useEffect(() => {
@@ -59,10 +59,6 @@ export default function App() {
     stateSetter((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  const handleNewPattern = (newCurves) => {
-    if (newCurves) setCurves(newCurves);
-    setCurveVersion(v => v + 1);
-  };
 
   const toggleSettingsMenu = () => setSettingsMenu((prev) => !prev);
   
@@ -109,13 +105,11 @@ export default function App() {
         
         getGenSetter={getSetter(setGenConfig)}
         getTransformSetter={getSetter(setTransformSVG)}
-
-        curveVersion={curveVersion} 
-        onGenerateNew={handleNewPattern}
         
         setCurves={setCurves}
         setActiveColors={setActiveColors}
         isOpen={isSettingsMenuOpen}
+        curvesLength={curvesLength}
       />
         
         <WavyBackground 

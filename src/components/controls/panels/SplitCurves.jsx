@@ -1,28 +1,32 @@
 import { useBezierActions } from "@hooks/useBezierActions";
-import { useState } from "react";
+import { SAFETY_LIMIT_OF_CURVES } from "/src/constants/constants";
 
-export default function SplitCurveButton({ setCurves }) {
 
-  const {splitAllCurves, isPending } = useBezierActions(setCurves);
-  const [splitCounter, setSplitCounter] = useState(0)
+export default function SplitCurveButton({ setCurves, curvesLength }) {
 
-  const handleClick = () => {
-    splitAllCurves() 
-    setSplitCounter(prev => prev + 1) 
-  }
+  const { splitAllCurves, isPending } = useBezierActions(setCurves);
+  
+  
+  
+  const currentCount = curvesLength || 0;
+  const isLimitReached = currentCount >= SAFETY_LIMIT_OF_CURVES;
+
   return (
   <>
     <button
-      className="btn-primary disabled:text-text-muted disabled:active:scale-100" 
-      onClick={() => handleClick()} 
-      disabled={isPending || splitCounter >= 4} 
+      className="btn-primary" 
+      onClick={splitAllCurves} 
+      disabled={isPending || isLimitReached} 
     >
-      {isPending ? 'Splitting...' : 'Split All Curves '}
+      {isPending ? 'Splitting...' : isLimitReached ? 'Max Limit Reached' : 'Split All Curves'}
     </button> 
-    <p className="text-help">
-        *For optimization purposes, the number of divisions is limited to 4. The current number of divisions is: {splitCounter}
+    
+    <p className="text-[10px] text-text-tertiary text-center italic">
+       {isLimitReached 
+         ? "Optimization limit reached to prevent browser crash." 
+         : `Current curves: ${currentCount}. Safe limit: ${SAFETY_LIMIT_OF_CURVES}`
+       }
     </p>
   </>
-  
   );
 }
