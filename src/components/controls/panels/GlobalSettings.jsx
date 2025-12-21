@@ -6,22 +6,24 @@ export default function GlobalSettings({ config, getSetter }) {
     <div className="space-y-6 pt-2">
       <div className="bottom-divider space-y-4">
         <ControlRangeSlider
-          setterFunction={getSetter('radius')}
+          value={config.radius}
+          onChange={getSetter('radius')}
           labelText="Radius"
           min={0}
           max={200}
-          defaultValue={config.radius}
           toolTipText="Sets the amplitude of the waves. High values create deeper curves."
         />
+        
         <ControlRangeSlider
-          setterFunction={getSetter('pointsPerCurve')}
+          value={config.pointsPerCurve}
+          onChange={getSetter('pointsPerCurve')}
           labelText="Resolution (Points)"
           min={2}
           max={300}
-          defaultValue={config.pointsPerCurve}
           toolTipText="The number of calculated points. More points make the lines smoother but can slow down the browser and increase the size of the output file."
         />
       </div>
+
       <div className="panel-card flex flex-col md:flex-row mt-8 gap-4">
         <Checkbox
           label="Enable Chaos"
@@ -37,11 +39,6 @@ export default function GlobalSettings({ config, getSetter }) {
           toolTipText="Switches the direction of every other line to create a symmetrical pattern."
         />
       </div>
-      
     </div>
   );
 }
-
-
-
- 

@@ -3,23 +3,26 @@ import idFromName from "@utils/idFromName";
 import ToolTip from "@widgets/tooltips/Tooltip";
 
 export default function ControlRangeSlider({
-  setterFunction, 
+  value,
+  onChange,
   min, 
   max,
-  defaultValue, 
   labelText, 
   step = 1, 
   toolTipText = ''
 }) {
 
-  const [inputValue, setInputValue] = useState(defaultValue);
+  const [localValue, setLocalValue] = useState(value);
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setterFunction(inputValue);
+      onChange(localValue);
     }, 300);
     return () => clearTimeout(timer);
-  }, [inputValue, setterFunction]);
+  }, [localValue, onChange]);
   
   const fieldId = idFromName(labelText);
   
@@ -40,15 +43,15 @@ export default function ControlRangeSlider({
         type="range"  
         id={fieldId} 
         name={fieldId}  
-        value={inputValue} 
-        onChange={(e) => setInputValue(+e.target.value)} 
+        value={localValue}
+        onChange={(e) => setLocalValue(+e.target.value)} 
         min={min} 
         max={max}
         step={step}
       />
 
       <span className="group-hocus:block hidden absolute bg-surface/40 text-text/90 rounded top-6 left-1/2 -translate-x-1/2 w-fit z-10 px-1 py-0.5 pointer-events-none backdrop-blur-sm border border-border/50">
-        {inputValue}
+        {localValue}
       </span>
     </div>
   );
