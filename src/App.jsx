@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useUndoRedo } from '@hooks/useUndoRedo';
 //CAnvas
 import { WavyBackground } from '@components/canvas/WavyBackground.jsx';
@@ -36,9 +36,6 @@ export default function App() {
   const curvesLength = curves.length || 0
 
 
-  useEffect(() => {
-    console.log(curves)
-  }, [curves])
 
   // SVG View State
   const [transformSVG, setTransformSVG] = useState({ 

@@ -41,6 +41,19 @@
 
   --shadow-glow: 0 0 20px rgba(168, 85, 247, 0.4);
   --shadow-card: 0 10px 40px -10px rgba(168, 85, 247, 0.2);
+
+--animate-fade-up: fade-up 0.4s ease-out;
+
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 @layer base {
@@ -84,3 +97,4 @@
 .bottom-divider::after {
   @apply content-[''] absolute left-1 right-1 -bottom-2 h-px bg-purple-600;
 }
+
