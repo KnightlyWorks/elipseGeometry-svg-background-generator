@@ -30,7 +30,7 @@ export default function ControlPanel({
 
     return (
         <aside className={clsx(
-            "bg-background-elevated w-full h-full overflow-y-scroll border-r border-border custom-scrollbar md:block md:static z-10 md:max-h-screen", 
+            "bg-background-elevated right-0 left-0 h-full overflow-y-scroll border-r border-border custom-scrollbar md:block md:static z-10 max-w-screen md:max-h-screen", 
             isOpen ? 'fixed max-h-[80%]' : 'hidden'
         )}>
             <div className="p-1 lg:p-4 space-y-6">

@@ -54,7 +54,7 @@ export function WavyBackground({
   const transformStr = `translate(${translateX} ${translateY}) scale(${scale})`;
 
   return (
-    <div ref={svgRef} className='p-4 h-fit bg-background'>
+    <div ref={svgRef} className='p-4 bg-background'>
         <svg
           className='max-h-screen w-full h-full'
           viewBox="0 0 600 600" 

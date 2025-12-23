@@ -17,4 +17,4 @@ export const DEFAULT_BEZIER_CURVES = CURVE_POINTS.map(createBezierFromPoints);
 
 export const MAIN_GRADIENT_ID = 'Main-svg-gradient';
 
-export const SAFETY_LIMIT_OF_CURVES = 750;
+export const SAFETY_LIMIT_OF_CURVES = 600;
