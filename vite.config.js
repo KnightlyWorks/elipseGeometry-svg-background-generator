@@ -12,7 +12,7 @@ export default defineConfig({
       '@hooks': '/src/hooks',
       '@utils': '/src/utils',
       '@assets': '/src/assets',
-      '@widgets': '/src/components/controls/widgets'
+      '@widgets': '/src/components/widgets'
     }
   }
 })

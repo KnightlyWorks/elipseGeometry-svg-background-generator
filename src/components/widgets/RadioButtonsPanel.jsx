@@ -1,4 +1,4 @@
-import idFromName from "../../../utils/idFromName";
+import idFromName from "@utils/idFromName";
 
 
 

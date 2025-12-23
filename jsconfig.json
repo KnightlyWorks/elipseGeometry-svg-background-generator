@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
-      "@widgets/*": ["src/components/controls/widgets/*"],
+      "@widgets/*": ["src/components/widgets/*"],
       "@hooks/*": ["src/hooks/*"],
       "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"]

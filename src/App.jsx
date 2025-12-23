@@ -1,19 +1,27 @@
 import clsx from 'clsx';
+
 import { useState, useCallback } from 'react';
+import { lazy, Suspense } from 'react';
+
 import { useUndoRedo } from '@hooks/useUndoRedo';
 //CAnvas
 import { WavyBackground } from '@components/canvas/WavyBackground.jsx';
 
 //Controls
-import ImportMenu from '@components/svg/svgImportExport/SvgInputModal';
-import ExportMenu from '@components/svg/svgImportExport/SvgExportModal';
+const ImportMenu = lazy(() => import('@components/svg/svgImportExport/SvgInputModal'));
+const ExportMenu = lazy(() => import('@components/svg/svgImportExport/SvgExportModal'));
 import ControlPanel from '@components/controls/Controls.jsx';
 
 //Layout
 import Header from '@components/layout/Header.jsx';
 import Footer from '@components/layout/Footer';
 
+// UI
+import Loader from '@components/widgets/Loader';
+
+//Constants
 import { DEFAULT_BEZIER_CURVES } from './constants/constants';
+
 export default function App() {
   // Generation Variables 
   const [genConfig, setGenConfig] = useState({
@@ -85,10 +93,14 @@ export default function App() {
         />
         
         {activeModal === 'import' && (
-          <ImportMenu onApply={setCurves} closeModal={closeModal} />
+          <Suspense fallback={<div className='fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'><Loader text='Loading Imort Modal...' /></div>} >
+            <ImportMenu onApply={setCurves} closeModal={closeModal} />
+          </Suspense>
         )}
         {activeModal === 'export' && (
-          <ExportMenu svgCode={codeString} closeModal={closeModal} />
+          <Suspense fallback={<div className='fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'> <Loader text='Loading Export Modal...' /> </div>} >
+            <ExportMenu svgCode={codeString} closeModal={closeModal} />
+          </Suspense>
         )}
       </Header>
 

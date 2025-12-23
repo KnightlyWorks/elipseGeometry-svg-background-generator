@@ -1,15 +1,17 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 
 
 //UI
 import GlobalSettings from "./panels/GlobalSettings.jsx";
 import FieldSetGroup from "@widgets/FieldSetGroup.jsx";
 import BackgroundTransformSettings from "./panels/SvgTransform.jsx";
-import GradientEditor from "./panels/GradientEditor.jsx";
 import PatternSelectionPanel from "./panels/PatternSelectionPanel.jsx";
 import GridOfPreviews from "./patterns/index.jsx";
 import SplitCurveButton from "./panels/SplitCurves.jsx";
+import Loader from "@components/widgets/Loader.jsx";
+
+const GradientEditor = lazy(() => import("./panels/GradientEditor.jsx"));
 
 export default function ControlPanel({ 
   transformSvgConfig,
@@ -33,14 +35,14 @@ export default function ControlPanel({
         )}>
             <div className="p-1 lg:p-4 space-y-6">
                 
-                <FieldSetGroup  legend={"Global Quality"}>
+                <FieldSetGroup openByDefault={true}  legend={"Global Quality"}>
                     <div className="space-y-6">
                         <GlobalSettings config={globalQualityConfig} getSetter={getGenSetter} />
                         <SplitCurveButton curvesLength={curvesLength}  setCurves={setCurves} />
                     </div>
                 </FieldSetGroup>
 
-                <FieldSetGroup legend={"Pattern Generator"}>
+                <FieldSetGroup openByDefault={true} legend={"Pattern Generator"}>
                     <PatternSelectionPanel 
                         GenerationComponent={GenerationComponent} 
                         setGenerationComponentModalIsOpen={setGenerationComponentModalIsOpen} 
@@ -48,12 +50,17 @@ export default function ControlPanel({
                     />
                 </FieldSetGroup>
 
-                <FieldSetGroup legend={"Transfrom Background"}>
+                <FieldSetGroup openByDefault={true} legend={"Transfrom Background"}>
                     <BackgroundTransformSettings config={transformSvgConfig} getSetter={getTransformSetter} />
                 </FieldSetGroup>
 
                 <FieldSetGroup legend={"Color"}>
-                    <GradientEditor onApply={setActiveColors} />
+                   <Suspense 
+                     fallback={
+                        <Loader text='Loading Editor...'/>
+                     }>
+                        <GradientEditor onApply={setActiveColors} />
+                    </Suspense>
                 </FieldSetGroup>
 
                 {generationComponentModalIsOpen && (

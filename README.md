@@ -41,13 +41,14 @@ If you enjoy digging into procedural logic and React performance optimization, y
 ## 🗂 Project Structure
 
  ```
-
 src/
-├── assets/                    # Static assets (icons, branding)
+├── assets/                    # Static assets (icons, branding, previews)
 │   ├── patternsPreviews/      # Pattern preview images. Filenames must match pattern JSX names.
 │   │   └── Placeholder.webp
+│   ├── close-icon.svg
+│   ├── footer-logo.svg
 │   ├── github-mark-white.png
-│   └── ...
+│   └── logo.svg
 ├── components/
 │   ├── canvas/                # Core visualization components
 │   │   ├── wavyBackground/    # Path generation logic and mathematical utilities
@@ -57,19 +58,15 @@ src/
 │   ├── controls/              # UI for settings and configuration
 │   │   ├── panels/            # Feature-specific configuration panels
 │   │   │   ├── GlobalSettings.jsx
-│   │   │   └── ...
+│   │   │   ├── GradientEditor.jsx
+│   │   │   ├── PatternSelectionPanel.jsx
+│   │   │   ├── SplitCurves.jsx
+│   │   │   └── SvgTransform.jsx
 │   │   ├── patterns/          # Geometry generation algorithms
 │   │   │   ├── index.jsx      # Pattern selector logic and modal
 │   │   │   ├── HorizontalWavyLines.jsx
-│   │   │   ├── SpiralPattern.jsx
-│   │   │   └── ...
-│   │   ├── widgets/           # Atomic, reusable UI components
-│   │   │   ├── tooltips/
-│   │   │   │   └── Tooltip.jsx
-│   │   │   ├── Checkbox.jsx
-│   │   │   ├── ControlRangeSlider.jsx
-│   │   │   ├── FieldSetGroup.jsx
-│   │   │   └── RadioButtonsPanel.jsx
+│   │   │   ├── JoiningTwoEdges.jsx
+│   │   │   └── SpiralPattern.jsx
 │   │   └── Controls.jsx
 │   ├── layout/                # Structural layout components
 │   │   ├── headerComponents/  # Specialized header UI elements
@@ -77,12 +74,20 @@ src/
 │   │   │   └── MenuButton.jsx
 │   │   ├── Footer.jsx
 │   │   └── Header.jsx
-│   └── svg/                   # SVG-specific processing and components
-│       ├── svgImportExport/   # Modals for raw SVG code manipulation
-│       │   ├── SvgEditorModal.jsx
-│       │   ├── SvgExportModal.jsx
-│       │   └── SvgInputModal.jsx
-│       └── SvgGradientDef.jsx
+│   ├── svg/                    # SVG-specific processing and components
+│   │   ├── svgImportExport/    # Modals for raw SVG code manipulation
+│   │   │   ├── SvgEditorModal.jsx
+│   │   │   ├── SvgExportModal.jsx
+│   │   │   └── SvgInputModal.jsx
+│   │   └── SvgGradientDef.jsx
+│   └── widgets/               # Atomic, reusable UI components
+│       ├── tooltips/
+│       │   └── Tooltip.jsx
+│       ├── Checkbox.jsx
+│       ├── ControlRangeSlider.jsx
+│       ├── FieldSetGroup.jsx
+│       ├── Loader.jsx
+│       └── RadioButtonsPanel.jsx
 ├── constants/                 # Global application-wide constants
 │   └── constants.js
 ├── hooks/                     # Custom React hooks
@@ -91,7 +96,6 @@ src/
 │   ├── useHistoryHotkeys.js   # Global keyboard listener for Undo/Redo
 │   ├── useResizeObserver.js   # Dynamic element dimension tracking
 │   └── useUndoRedo.js         # Core state history management
-
 ├── styles/                    # Global CSS and styling
 │   └── index.css
 ├── utils/                     # Generic helper functions
