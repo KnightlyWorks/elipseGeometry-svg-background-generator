@@ -3,7 +3,7 @@ import PlaceholderImage from '@assets/patternsPreviews/Placeholder.webp';
 import camelCaseToSpaced from '@utils/camelCaseToSpaced';
 
 const patternModules = import.meta.glob('./*.jsx', { eager: true });
-const patternImages = import.meta.glob('@assets/patternsPreviews/*.{png,jpg,jpeg,webp,svg}', { eager: true, as: 'url' });
+const patternImages = import.meta.glob('/src/assets/patternsPreviews/*.{png,jpg,jpeg,webp,svg}', { eager: true, as: 'url' });
 
 function getComponentNameFromPath(path) {
   return path.split('/').pop().replace(/\.\w+$/, '');
@@ -28,6 +28,9 @@ function PreviewCard({ path, setterFunction, closeModalFunction }) {
     setterFunction(() => PatternComponent);
     closeModalFunction();
   }
+
+  console.log('Found Modules:', Object.keys(patternModules));
+console.log('Found Images:', Object.keys(patternImages));
 
   return (
     <button
